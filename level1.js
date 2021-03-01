@@ -27,11 +27,16 @@ function create() {
     platformsRec = game.add.group();
     platformsRec.enableBody = true;
 
-    var ground = platformsRec.create(0, game.world.height - 33, "platformRec");
-    ground.scale.setTo(6, 0.5);
-    ground.body.immovable = true;
+    // ground
+    createRecPlatforms(0, game.world.height - 33, 6, 0.5);
+    // left-most verticle wall
+    createRecPlatforms(0, 200, 0.1, 7);
+    // uppercorner
+    createRecPlatforms(20, 100, 1, 0.3);
+    // middle top
+    createRecPlatforms(260, 80, 1, 0.3);
 
-    arlo = game.add.sprite(32, 32, "arlo");
+    arlo = game.add.sprite(32, 15, "arlo");
     arlo.scale.setTo(0.08, 0.08);
     game.physics.arcade.enable(arlo);
 
@@ -45,7 +50,7 @@ function create() {
 }
 
 function update() {
-    var hitPlatform = game.physics.arcade.collide(arlo, platformsRec);
+    var hitPlatformsRec = game.physics.arcade.collide(arlo, platformsRec);
 
     arlo.body.velocity.x = 0;
 
@@ -58,7 +63,13 @@ function update() {
         arlo.animations.stop();
     }
 
-    if (cursors.up.isDown && arlo.body.touching.down && hitPlatform) {
+    if (cursors.up.isDown && arlo.body.touching.down && hitPlatformsRec) {
         arlo.body.velocity.y = -200;
     }
+}
+
+function createRecPlatforms(x, y, scaleX, scaleY) {
+    var platform = platformsRec.create(x, y, "platformRec");
+    platform.scale.setTo(scaleX, scaleY);
+    platform.body.immovable = true;
 }
