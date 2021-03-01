@@ -1,6 +1,10 @@
 var levels = {};
 var arlo, enemy1, enemy2;
 var platformsRec, platformsSquare, stars, diamonds;
+var bullets;
+var bulletTime = 0;
+var fireButton;
+var facingRight = true;
 var cursors;
 var lifebar;
 
@@ -21,6 +25,7 @@ function preload() {
     game.load.image("diamond", "assets/diamond.png");
     game.load.image("portal", "assets/portal.png");
     game.load.image("enemy", "assets/enemy.png");
+    game.load.image("bullet", "assets/bullet.png");
 }
 
 function create() {
@@ -32,6 +37,16 @@ function create() {
     lifebar = game.add.text(16, 16, game.playerStats.lifebar, {
         fill: "#ff0000",
     });
+
+    // bullet group
+    bullets = game.add.group();
+    bullets.enableBody = true;
+    bullets.physicsBodyType = Phaser.Physics.ARCADE;
+    bullets.createMultiple(30, "bullet");
+    bullets.setAll("anchor.x", 0.5);
+    bullets.setAll("anchor.y", 0.5);
+    bullets.setAll("outOfBoundsKill", true);
+    bullets.setAll("checkWorldBounds", true);
 
     platformsRec = game.add.group();
     platformsRec.enableBody = true;
@@ -90,6 +105,7 @@ function create() {
     enemy2.body.collideWorldBounds = true;
 
     cursors = game.input.keyboard.createCursorKeys();
+    fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Z);
 }
 
 function update() {
@@ -100,9 +116,11 @@ function update() {
 
     if (cursors.left.isDown) {
         arlo.body.velocity.x = -1 * game.playerStats.movementSpeed;
+        facingRight = false;
     } else if (cursors.right.isDown) {
         arlo.body.velocity.x = game.playerStats.movementSpeed;
         // arlo.animations.play("moveRight");
+        facingRight = true;
     } else {
         arlo.animations.stop();
     }
@@ -135,8 +153,31 @@ function update() {
         enemy2.body.velocity.x = -150;
     }
 
+    // Firing?
+    if (fireButton.isDown) {
+        fireBullet();
+    }
+
     game.physics.arcade.collide(arlo, enemy1, loseLife, null, this);
     game.physics.arcade.collide(arlo, enemy2, loseLife, null, this);
+
+    game.physics.arcade.overlap(bullets, enemy1, killEnemy, null, this);
+    game.physics.arcade.overlap(bullets, enemy2, killEnemy, null, this);
+
+    game.physics.arcade.collide(
+        bullets,
+        platformsRec,
+        bulletsHitWall,
+        null,
+        this
+    );
+    game.physics.arcade.collide(
+        bullets,
+        platformsSquare,
+        bulletsHitWall,
+        null,
+        this
+    );
 }
 
 function createRecPlatforms(x, y, scaleX, scaleY) {
@@ -203,4 +244,25 @@ function generateLifebar() {
     for (var i = 0; i < game.playerStats.life; i++) {
         game.playerStats.lifebar += "❤";
     }
+}
+
+function fireBullet() {
+    if (game.time.now > bulletTime) {
+        bullet = bullets.getFirstExists(false);
+
+        if (bullet) {
+            bullet.reset(arlo.x + 26, arlo.y + 25);
+            bullet.body.velocity.x = facingRight ? 400 : -400;
+            bulletTime = game.time.now + 200;
+        }
+    }
+}
+
+function killEnemy(bullet, enemy) {
+    bullet.kill();
+    enemy.kill();
+}
+
+function bulletsHitWall(bullet, wall) {
+    bullet.kill();
 }
