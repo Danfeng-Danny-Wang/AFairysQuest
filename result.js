@@ -25,5 +25,6 @@ levels.result.prototype = {
 function fn1(i, args) {
     game.playerStats.life = 3;
     game.playerStats.lifebar = "❤❤❤";
+    game.playerStats.movementSpeed = 100;
     game.state.start("level1");
 }

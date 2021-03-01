@@ -6,8 +6,6 @@ game.playerStats = {
     movementSpeed: 100,
     life: 3,
     lifebar: "❤❤❤",
-    // lifeInTheBeginningOfThisLevel: 3,
-    // lifebarInTheBeginningOfThisLevel: "❤❤❤",
 };
 
 game.state.start("level1");
