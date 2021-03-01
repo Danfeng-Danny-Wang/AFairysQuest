@@ -2,6 +2,7 @@ var levels = {};
 var arlo;
 var platformsRec, platformsSquare, stars, diamonds;
 var cursors;
+var lifebar;
 
 levels.level1 = function () {};
 levels.level1.prototype = {
@@ -26,6 +27,10 @@ function create() {
     var background = game.add.sprite(0, 0, "forestBG");
     background.scale.setTo(0.6, 0.6);
 
+    lifebar = game.add.text(16, 16, game.playerStats.lifebar, {
+        fill: "#ff0000",
+    });
+
     platformsRec = game.add.group();
     platformsRec.enableBody = true;
 
@@ -45,8 +50,8 @@ function create() {
     // uppercorner
     createRecPlatforms(20, 100, 1, 0.3);
     // middle top
-    createRecPlatforms(260, 80, 1, 0.3);
-    createStar(300, 40);
+    createRecPlatforms(230, 80, 1, 0.3);
+    createStar(285, 40);
     // middle bot
     createRecPlatforms(420, 250, 1.4, 0.3);
 
@@ -74,9 +79,9 @@ function update() {
     arlo.body.velocity.x = 0;
 
     if (cursors.left.isDown) {
-        arlo.body.velocity.x = -150;
+        arlo.body.velocity.x = -1 * game.playerStats.movementSpeed;
     } else if (cursors.right.isDown) {
-        arlo.body.velocity.x = 150;
+        arlo.body.velocity.x = game.playerStats.movementSpeed;
         // arlo.animations.play("moveRight");
     } else {
         arlo.animations.stop();
@@ -118,8 +123,16 @@ function createDiamond(x, y) {
 
 function collectStar(arlo, star) {
     star.kill();
+    game.playerStats.movementSpeed += 50;
 }
 
 function collectDiamond(arlo, diamond) {
     diamond.kill();
+    changeLifebar();
+}
+
+function changeLifebar(add = true) {
+    game.playerStats.life++;
+    game.playerStats.lifebar += "❤";
+    lifebar.text = game.playerStats.lifebar;
 }
