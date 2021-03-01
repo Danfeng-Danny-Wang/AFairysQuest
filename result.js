@@ -4,10 +4,16 @@ levels.result.prototype = {
     create: function () {
         game.stage.backgroundColor = "#5ac18e";
 
-        var result = game.add.text(300, 230, "Win!\nPress Z to restart", {
-            fontSize: "32px",
-            fill: "#dde587",
-        });
+        var resultText = game.playerStats.life > 0 ? "Win!" : "Game Over!";
+        var result = game.add.text(
+            300,
+            230,
+            `${resultText}\nPress Z to restart`,
+            {
+                fontSize: "32px",
+                fill: "#dde587",
+            }
+        );
 
         game.input.keyboard
             .addKey(Phaser.Keyboard.Z)

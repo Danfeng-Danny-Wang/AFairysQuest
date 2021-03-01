@@ -1,5 +1,5 @@
 var levels = {};
-var arlo;
+var arlo, enemy1, enemy2;
 var platformsRec, platformsSquare, stars, diamonds;
 var cursors;
 var lifebar;
@@ -82,6 +82,13 @@ function create() {
     enemy1.body.gravity.y = 300;
     enemy1.body.collideWorldBounds = true;
 
+    enemy2 = game.add.sprite(20, 300, "enemy");
+    enemy2.scale.setTo(0.5, 0.5);
+    game.physics.arcade.enable(enemy2);
+    enemy2.body.bounce.y = 0.2;
+    enemy2.body.gravity.y = 300;
+    enemy2.body.collideWorldBounds = true;
+
     cursors = game.input.keyboard.createCursorKeys();
 }
 
@@ -120,7 +127,16 @@ function update() {
         enemy1.body.velocity.x = -150;
     }
 
+    game.physics.arcade.collide(enemy2, platformsRec);
+
+    if (enemy2.x <= 20 && enemy2.body.touching.down) {
+        enemy2.body.velocity.x = 150;
+    } else if (enemy2.x >= 600) {
+        enemy2.body.velocity.x = -150;
+    }
+
     game.physics.arcade.collide(arlo, enemy1, loseLife, null, this);
+    game.physics.arcade.collide(arlo, enemy2, loseLife, null, this);
 }
 
 function createRecPlatforms(x, y, scaleX, scaleY) {
@@ -163,7 +179,9 @@ function changeLifebar(add = true) {
     } else {
         game.playerStats.life--;
 
-        // TODO: When life = 0
+        if (game.playerStats.life === 0) {
+            game.state.start("result");
+        }
 
         generateLifebar();
         lifebar.text = game.playerStats.lifebar;
