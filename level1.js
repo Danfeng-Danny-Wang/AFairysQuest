@@ -1,6 +1,6 @@
 var levels = {};
 var arlo;
-var platformsRec, platformsSquare;
+var platformsRec, platformsSquare, stars, diamonds;
 var cursors;
 
 levels.level1 = function () {};
@@ -16,6 +16,8 @@ function preload() {
     game.load.spritesheet("arloSheet", "assets/arloSheet.png");
     game.load.image("platformRec", "assets/rect-platf.png");
     game.load.image("platformSquare", "assets/square-platf.png");
+    game.load.image("star", "assets/star.png");
+    game.load.image("diamond", "assets/diamond.png");
 }
 
 function create() {
@@ -30,6 +32,12 @@ function create() {
     platformsSquare = game.add.group();
     platformsSquare.enableBody = true;
 
+    stars = game.add.group();
+    stars.enableBody = true;
+
+    diamonds = game.add.group();
+    diamonds.enableBody = true;
+
     // ground
     createRecPlatforms(0, game.world.height - 33, 6, 0.5);
     // left-most verticle wall
@@ -38,11 +46,13 @@ function create() {
     createRecPlatforms(20, 100, 1, 0.3);
     // middle top
     createRecPlatforms(260, 80, 1, 0.3);
+    createStar(300, 40);
     // middle bot
     createRecPlatforms(420, 250, 1.4, 0.3);
 
     // mid box
     createSquarePlatforms(240, 250);
+    createDiamond(245, 225);
 
     arlo = game.add.sprite(32, 15, "arlo");
     arlo.scale.setTo(0.08, 0.08);
@@ -79,6 +89,9 @@ function update() {
     ) {
         arlo.body.velocity.y = -200;
     }
+
+    game.physics.arcade.overlap(arlo, stars, collectStar, null, this);
+    game.physics.arcade.overlap(arlo, diamonds, collectDiamond, null, this);
 }
 
 function createRecPlatforms(x, y, scaleX, scaleY) {
@@ -90,4 +103,23 @@ function createRecPlatforms(x, y, scaleX, scaleY) {
 function createSquarePlatforms(x, y) {
     var platform = platformsSquare.create(x, y, "platformSquare");
     platform.body.immovable = true;
+}
+
+function createStar(x, y) {
+    var star = stars.create(x, y, "star");
+    star.body.immovable = true;
+}
+
+function createDiamond(x, y) {
+    var diamond = diamonds.create(x, y, "diamond");
+    diamond.scale.setTo(0.8, 0.8);
+    diamond.body.immovable = true;
+}
+
+function collectStar(arlo, star) {
+    star.kill();
+}
+
+function collectDiamond(arlo, diamond) {
+    diamond.kill();
 }
