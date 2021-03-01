@@ -20,6 +20,7 @@ function preload() {
     game.load.image("star", "assets/star.png");
     game.load.image("diamond", "assets/diamond.png");
     game.load.image("portal", "assets/portal.png");
+    game.load.image("enemy", "assets/enemy.png");
 }
 
 function create() {
@@ -53,7 +54,7 @@ function create() {
     // middle top
     createRecPlatforms(230, 80, 1, 0.3);
     createStar(285, 40);
-    // middle bot
+    // middle right
     createRecPlatforms(420, 250, 1.4, 0.3);
 
     // mid box
@@ -73,6 +74,13 @@ function create() {
     arlo.body.collideWorldBounds = true;
 
     // arlo.animations.add("moveRight", [0, 1, 2, 3, 4], 10, true);
+
+    enemy1 = game.add.sprite(430, 100, "enemy");
+    enemy1.scale.setTo(0.5, 0.5);
+    game.physics.arcade.enable(enemy1);
+    enemy1.body.bounce.y = 0.2;
+    enemy1.body.gravity.y = 300;
+    enemy1.body.collideWorldBounds = true;
 
     cursors = game.input.keyboard.createCursorKeys();
 }
@@ -103,6 +111,16 @@ function update() {
     game.physics.arcade.overlap(arlo, stars, collectStar, null, this);
     game.physics.arcade.overlap(arlo, diamonds, collectDiamond, null, this);
     game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
+
+    game.physics.arcade.collide(enemy1, platformsRec);
+
+    if (enemy1.x <= 430 && enemy1.body.touching.down) {
+        enemy1.body.velocity.x = 150;
+    } else if (enemy1.x >= 580) {
+        enemy1.body.velocity.x = -150;
+    }
+
+    game.physics.arcade.collide(arlo, enemy1, loseLife, null, this);
 }
 
 function createRecPlatforms(x, y, scaleX, scaleY) {
@@ -138,11 +156,33 @@ function collectDiamond(arlo, diamond) {
 }
 
 function changeLifebar(add = true) {
-    game.playerStats.life++;
-    game.playerStats.lifebar += "❤";
-    lifebar.text = game.playerStats.lifebar;
+    if (add) {
+        game.playerStats.life++;
+        generateLifebar();
+        lifebar.text = game.playerStats.lifebar;
+    } else {
+        game.playerStats.life--;
+
+        // TODO: When life = 0
+
+        generateLifebar();
+        lifebar.text = game.playerStats.lifebar;
+    }
 }
 
 function goToResult() {
     game.state.start("result");
+}
+
+function loseLife() {
+    arlo.x = 32;
+    arlo.y = 15;
+    changeLifebar(false);
+}
+
+function generateLifebar() {
+    game.playerStats.lifebar = "";
+    for (var i = 0; i < game.playerStats.life; i++) {
+        game.playerStats.lifebar += "❤";
+    }
 }
