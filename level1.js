@@ -19,6 +19,7 @@ function preload() {
     game.load.image("platformSquare", "assets/square-platf.png");
     game.load.image("star", "assets/star.png");
     game.load.image("diamond", "assets/diamond.png");
+    game.load.image("portal", "assets/portal.png");
 }
 
 function create() {
@@ -59,6 +60,10 @@ function create() {
     createSquarePlatforms(240, 250);
     createDiamond(245, 225);
 
+    portal = game.add.sprite(730, 510, "portal");
+    portal.scale.setTo(0.1, 0.1);
+    game.physics.arcade.enable(portal);
+
     arlo = game.add.sprite(32, 15, "arlo");
     arlo.scale.setTo(0.08, 0.08);
     game.physics.arcade.enable(arlo);
@@ -97,6 +102,7 @@ function update() {
 
     game.physics.arcade.overlap(arlo, stars, collectStar, null, this);
     game.physics.arcade.overlap(arlo, diamonds, collectDiamond, null, this);
+    game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
 }
 
 function createRecPlatforms(x, y, scaleX, scaleY) {
@@ -135,4 +141,8 @@ function changeLifebar(add = true) {
     game.playerStats.life++;
     game.playerStats.lifebar += "❤";
     lifebar.text = game.playerStats.lifebar;
+}
+
+function goToResult() {
+    game.state.start("result");
 }
