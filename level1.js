@@ -26,17 +26,38 @@ function preload() {
     game.load.image("portal", "assets/portal.png");
     game.load.image("enemy", "assets/enemy.png");
     game.load.image("bullet", "assets/bullet.png");
+    game.load.audio("music", "assets/bgMusic.mp3");
+    game.load.audio("bullet", "assets/bulletSound.mp3");
+    game.load.audio("hit", "assets/hit.mp3");
 }
 
 function create() {
+
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     var background = game.add.sprite(0, 0, "forestBG");
     background.scale.setTo(0.6, 0.6);
 
+    game.music = game.sound.add("music");
+    var musicConfig = {
+        mute: false,
+        volume: 1,
+        rate: 1,
+        detune: 0,
+        seek: 0,
+        loop: false,
+        delay: 0
+    }
+    game.music.play(musicConfig);
+
+    game.bulletSound = game.sound.add("bullet");
+    game.hitSound = game.sound.add("hit");
+
     lifebar = game.add.text(16, 16, game.playerStats.lifebar, {
         fill: "#ff0000",
     });
+
+    game.backgroud
 
     // bullet group
     bullets = game.add.group();
@@ -249,11 +270,13 @@ function generateLifebar() {
 function fireBullet() {
     if (game.time.now > bulletTime) {
         bullet = bullets.getFirstExists(false);
+        game.bulletSound.play();
 
         if (bullet) {
             bullet.reset(arlo.x + 26, arlo.y + 25);
             bullet.body.velocity.x = facingRight ? 400 : -400;
             bulletTime = game.time.now + 200;
+            game.bulletSound.play();
         }
     }
 }
@@ -261,6 +284,8 @@ function fireBullet() {
 function killEnemy(bullet, enemy) {
     bullet.kill();
     enemy.kill();
+    game.hitSound.play();
+
 }
 
 function bulletsHitWall(bullet, wall) {
