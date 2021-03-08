@@ -7,7 +7,7 @@ var fireButton;
 var facingRight = true;
 var cursors;
 var lifebar;
-var music;
+var BGMusic, bulletSound, hitSound;
 
 levels.level1 = function () {};
 levels.level1.prototype = {
@@ -17,20 +17,26 @@ levels.level1.prototype = {
 };
 
 function preload() {
-    game.load.image("forestBG", "assets/forestBG.png");
-    game.load.image("arlo", "assets/arlo.png");
-    game.load.spritesheet("arloSheet", "assets/arloSheet.png");
-    game.load.image("platformRec", "assets/rect-platf.png");
-    game.load.image("platformSquare", "assets/square-platf.png");
-    game.load.image("star", "assets/star.png");
-    game.load.image("diamond", "assets/diamond.png");
-    game.load.image("portal", "assets/portal.png");
-    game.load.image("enemy", "assets/enemy.png");
-    game.load.image("bullet", "assets/bullet.png");
+    game.load.image("forestBG", "assets/sprites/forestBG.png");
+    game.load.image("arlo", "assets/sprites/arlo.png");
+    game.load.spritesheet("arloSheet", "assets/sprites/arloSheet.png");
+    game.load.image("platformRec", "assets/sprites/rect-platf.png");
+    game.load.image("platformSquare", "assets/sprites/square-platf.png");
+    game.load.image("star", "assets/sprites/star.png");
+    game.load.image("diamond", "assets/sprites/diamond.png");
+    game.load.image("portal", "assets/sprites/portal.png");
+    game.load.image("enemy", "assets/sprites/enemy.png");
+    game.load.image("bullet", "assets/sprites/bullet.png");
 
-    game.load.audio("music", ["assets/bgMusic.mp3", "assets/bgMusic.ogg"]);
-    game.load.audio("bullet", "assets/bulletSound.mp3");
-    game.load.audio("hit", "assets/hit.mp3");
+    game.load.audio("music", [
+        "assets/sounds/bgMusic.mp3",
+        "assets/sounds/bgMusic.ogg",
+    ]);
+    game.load.audio("bullet", [
+        "assets/sounds/bulletSound.mp3",
+        "assets/sounds/bulletSound.ogg",
+    ]);
+    game.load.audio("hit", ["assets/sounds/hit.mp3", "assets/sounds/hit.ogg"]);
 }
 
 function create() {
@@ -41,20 +47,20 @@ function create() {
 
     game.input.touch.preventDefault = false;
 
-    var musicConfig = {
-        mute: false,
-        volume: 1,
-        rate: 1,
-        detune: 0,
-        seek: 0,
-        loop: false,
-        delay: 0,
-    };
-    music = game.add.audio("music");
-    music.play();
+    // var musicConfig = {
+    //     mute: false,
+    //     volume: 1,
+    //     rate: 1,
+    //     detune: 0,
+    //     seek: 0,
+    //     loop: false,
+    //     delay: 0,
+    // };
+    BGMusic = game.add.audio("music");
+    BGMusic.play();
 
-    game.bulletSound = game.sound.add("bullet");
-    game.hitSound = game.sound.add("hit");
+    bulletSound = game.add.audio("bullet");
+    hitSound = game.add.audio("hit");
 
     lifebar = game.add.text(16, 16, game.playerStats.lifebar, {
         fill: "#ff0000",
@@ -276,7 +282,7 @@ function fireBullet() {
             bullet.reset(arlo.x + 26, arlo.y + 25);
             bullet.body.velocity.x = facingRight ? 400 : -400;
             bulletTime = game.time.now + 200;
-            game.bulletSound.play();
+            bulletSound.play();
         }
     }
 }
@@ -284,7 +290,7 @@ function fireBullet() {
 function killEnemy(bullet, enemy) {
     bullet.kill();
     enemy.kill();
-    game.hitSound.play();
+    hitSound.play();
 }
 
 function bulletsHitWall(bullet, wall) {
