@@ -19,7 +19,12 @@ levels.level1.prototype = {
 function preload() {
     game.load.image("forestBG", "assets/sprites/2070.png");
     game.load.image("arlo", "assets/sprites/arlo.png");
-    game.load.spritesheet("arloSheet", "assets/sprites/arloSheet.png", 1000, 1687);
+    game.load.spritesheet(
+        "arloSheet",
+        "assets/sprites/arloSheet.png",
+        1000,
+        1687
+    );
     game.load.image("platformRec", "assets/sprites/rect-platf.png");
     game.load.image("platformSquare", "assets/sprites/square-platf.png");
     game.load.image("star", "assets/sprites/star.png");
@@ -116,17 +121,17 @@ function create() {
     arlo.body.gravity.y = 300;
     arlo.body.collideWorldBounds = true;
 
-    arlo.animations.add('walk', [0, 1, 2, 3, 4]);
+    arlo.animations.add("walk", [0, 1, 2, 3, 4]);
 
     enemy1 = game.add.sprite(430, 100, "enemy");
-    enemy1.scale.setTo(0.5, 0.5);
+    enemy1.scale.setTo(0.12, 0.12);
     game.physics.arcade.enable(enemy1);
     enemy1.body.bounce.y = 0.2;
     enemy1.body.gravity.y = 300;
     enemy1.body.collideWorldBounds = true;
 
     enemy2 = game.add.sprite(20, 300, "enemy");
-    enemy2.scale.setTo(0.5, 0.5);
+    enemy2.scale.setTo(0.12, 0.12);
     game.physics.arcade.enable(enemy2);
     enemy2.body.bounce.y = 0.2;
     enemy2.body.gravity.y = 300;
@@ -146,14 +151,14 @@ function update() {
         arlo.scale.setTo(-0.025, 0.025);
         arlo.body.velocity.x = -1 * game.playerStats.movementSpeed;
         facingRight = false;
-        arlo.animations.play('walk', 14, true);
+        arlo.animations.play("walk", 14, true);
     } else if (cursors.right.isDown) {
         arlo.scale.setTo(0.025, 0.025);
         arlo.body.velocity.x = game.playerStats.movementSpeed;
         facingRight = true;
-        arlo.animations.play('walk', 14, true);
+        arlo.animations.play("walk", 14, true);
     } else {
-        arlo.animations.stop('walk');
+        arlo.animations.stop("walk");
         arlo.frame = 0;
     }
 
