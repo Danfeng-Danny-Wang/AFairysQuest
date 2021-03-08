@@ -50,6 +50,7 @@ function create() {
     var background = game.add.sprite(0, 0, "forestBG");
     background.scale.setTo(0.2, 0.2);
 
+    // Music and Sound
     game.input.touch.preventDefault = false;
 
     // var musicConfig = {
@@ -67,6 +68,7 @@ function create() {
     bulletSound = game.add.audio("bullet");
     hitSound = game.add.audio("hit");
 
+    // Lifebar
     lifebar = game.add.text(16, 16, game.playerStats.lifebar, {
         fill: "#ff0000",
     });
