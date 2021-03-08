@@ -1,11 +1,12 @@
 var BGMusic, bulletSound, hitSound;
 var platformsRec, platformsSquare, stars, diamonds;
-var arlo, enemy1, enemy2;
+var arlo, enemy1, enemy2, portal;
 var bullets;
 var bulletTime = 0;
 var fireButton;
 var facingRight = true;
 var cursors;
+var strongPotion;
 
 levels.level2 = function () {};
 
@@ -31,6 +32,7 @@ function preload() {
     game.load.image("portal", "assets/sprites/portal.png");
     game.load.image("enemy", "assets/sprites/enemy_gray.png");
     game.load.image("bullet", "assets/sprites/bullet.png");
+    game.load.image("strongPotion", "assets/sprites/strong.png");
 
     game.load.audio("music", [
         "assets/sounds/bgMusic.mp3",
@@ -72,10 +74,25 @@ function create() {
     platformsSquare = game.add.group();
     platformsSquare.enableBody = true;
 
+    stars = game.add.group();
+    stars.enableBody = true;
+
+    diamonds = game.add.group();
+    diamonds.enableBody = true;
+
     // ground
     createRecPlatforms(0, game.world.height - 30, 6, 0.6);
 
-    arlo = game.add.sprite(32, 15, "arloSheet");
+    createRecPlatforms(0, 500, 1, 0.3);
+    createRecPlatforms(250, 430, 1, 0.3);
+    createRecPlatforms(0, 370, 1, 0.3);
+    createRecPlatforms(250, 290, 1, 0.3);
+    createRecPlatforms(0, 230, 1, 0.3);
+    createRecPlatforms(250, 150, 1, 0.3);
+
+    createRecPlatforms(380, 100, 0.1, 9);
+
+    arlo = game.add.sprite(20, 500, "arloSheet");
     arlo.scale.setTo(0.025, 0.025);
     game.physics.arcade.enable(arlo);
 
@@ -115,7 +132,7 @@ function update() {
         arlo.body.touching.down &&
         (hitPlatformsRec || hitPlatformsSquare)
     ) {
-        arlo.body.velocity.y = -200;
+        arlo.body.velocity.y = -240;
     }
 
     // Firing?

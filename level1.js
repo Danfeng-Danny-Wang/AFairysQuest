@@ -1,5 +1,6 @@
 var levels = {};
-var arlo, enemy1, enemy2;
+
+var arlo, enemy1, enemy2, portal;
 var platformsRec, platformsSquare, stars, diamonds;
 var bullets;
 var bulletTime = 0;
