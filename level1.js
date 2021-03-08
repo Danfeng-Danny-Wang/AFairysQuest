@@ -17,15 +17,15 @@ levels.level1.prototype = {
 };
 
 function preload() {
-    game.load.image("forestBG", "assets/sprites/forestBG.png");
+    game.load.image("forestBG", "assets/sprites/2070.png");
     game.load.image("arlo", "assets/sprites/arlo.png");
-    game.load.spritesheet("arloSheet", "assets/sprites/arloSheet.png");
+    game.load.spritesheet("arloSheet", "assets/sprites/arloSheet.png", 1000, 1687);
     game.load.image("platformRec", "assets/sprites/rect-platf.png");
     game.load.image("platformSquare", "assets/sprites/square-platf.png");
     game.load.image("star", "assets/sprites/star.png");
     game.load.image("diamond", "assets/sprites/diamond.png");
     game.load.image("portal", "assets/sprites/portal.png");
-    game.load.image("enemy", "assets/sprites/enemy.png");
+    game.load.image("enemy", "assets/sprites/enemy_gray.png");
     game.load.image("bullet", "assets/sprites/bullet.png");
 
     game.load.audio("music", [
@@ -43,7 +43,7 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     var background = game.add.sprite(0, 0, "forestBG");
-    background.scale.setTo(0.6, 0.6);
+    background.scale.setTo(0.2, 0.2);
 
     game.input.touch.preventDefault = false;
 
@@ -108,15 +108,15 @@ function create() {
     portal.scale.setTo(0.1, 0.1);
     game.physics.arcade.enable(portal);
 
-    arlo = game.add.sprite(32, 15, "arlo");
-    arlo.scale.setTo(0.08, 0.08);
+    arlo = game.add.sprite(32, 15, "arloSheet");
+    arlo.scale.setTo(0.025, 0.025);
     game.physics.arcade.enable(arlo);
 
     arlo.body.bounce.y = 0.2;
     arlo.body.gravity.y = 300;
     arlo.body.collideWorldBounds = true;
 
-    // arlo.animations.add("moveRight", [0, 1, 2, 3, 4], 10, true);
+    arlo.animations.add('walk', [0, 1, 2, 3, 4]);
 
     enemy1 = game.add.sprite(430, 100, "enemy");
     enemy1.scale.setTo(0.5, 0.5);
@@ -143,14 +143,18 @@ function update() {
     arlo.body.velocity.x = 0;
 
     if (cursors.left.isDown) {
+        arlo.scale.setTo(-0.025, 0.025);
         arlo.body.velocity.x = -1 * game.playerStats.movementSpeed;
         facingRight = false;
+        arlo.animations.play('walk', 14, true);
     } else if (cursors.right.isDown) {
+        arlo.scale.setTo(0.025, 0.025);
         arlo.body.velocity.x = game.playerStats.movementSpeed;
-        // arlo.animations.play("moveRight");
         facingRight = true;
+        arlo.animations.play('walk', 14, true);
     } else {
-        arlo.animations.stop();
+        arlo.animations.stop('walk');
+        arlo.frame = 0;
     }
 
     if (
