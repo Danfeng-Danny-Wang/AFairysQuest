@@ -1,6 +1,7 @@
 var BGMusic, bulletSound, hitSound;
 var platformsRec, platformsSquare, stars, diamonds;
-var arlo, enemy1, enemy2, portal;
+var arlo, portal;
+var enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8;
 var bullets;
 var bulletTime = 0;
 var fireButton;
@@ -106,6 +107,17 @@ function create() {
 
     arlo.animations.add("walk", [0, 1, 2, 3, 4]);
 
+    enemy1 = addEnemy(400, 300);
+
+    enemy2 = addEnemy(0, 430);
+    enemy3 = addEnemy(250, 330);
+    enemy4 = addEnemy(0, 300);
+    enemy5 = addEnemy(250, 190);
+    enemy6 = addEnemy(0, 160);
+    enemy7 = addEnemy(250, 50);
+
+    enemy8 = addEnemy(400, 520);
+
     cursors = game.input.keyboard.createCursorKeys();
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Z);
 }
@@ -113,6 +125,23 @@ function create() {
 function update() {
     var hitPlatformsRec = game.physics.arcade.collide(arlo, platformsRec);
     var hitPlatformsSquare = game.physics.arcade.collide(arlo, platformsSquare);
+
+    game.physics.arcade.collide(enemy1, platformsRec);
+    updateEnemy(enemy1, 400, 720);
+    game.physics.arcade.collide(enemy2, platformsRec);
+    updateEnemy(enemy2, 0, 100);
+    game.physics.arcade.collide(enemy3, platformsRec);
+    updateEnemy(enemy3, 250, 310);
+    game.physics.arcade.collide(enemy4, platformsRec);
+    updateEnemy(enemy4, 0, 100);
+    game.physics.arcade.collide(enemy5, platformsRec);
+    updateEnemy(enemy5, 250, 310);
+    game.physics.arcade.collide(enemy6, platformsRec);
+    updateEnemy(enemy6, 0, 100);
+    game.physics.arcade.collide(enemy7, platformsRec);
+    updateEnemy(enemy7, 250, 310);
+    game.physics.arcade.collide(enemy8, platformsRec);
+    updateEnemy(enemy8, 400, 720);
 
     arlo.body.velocity.x = 0;
 
@@ -144,10 +173,45 @@ function update() {
         fireBullet();
     }
 
+    game.physics.arcade.collide(
+        bullets,
+        platformsRec,
+        bulletsHitWall,
+        null,
+        this
+    );
+    game.physics.arcade.collide(
+        bullets,
+        platformsSquare,
+        bulletsHitWall,
+        null,
+        this
+    );
+
     game.physics.arcade.overlap(arlo, strongPotion, jumpHigher, null, this);
 }
 
 function jumpHigher() {
     strongPotion.kill();
     game.playerStats.jumpStrength -= 40;
+}
+
+function addEnemy(x, y) {
+    var enemy = game.add.sprite(x, y, "enemy");
+    enemy.scale.setTo(0.12, 0.12);
+    game.physics.arcade.enable(enemy);
+    enemy.body.bounce.y = 0.2;
+    enemy.body.gravity.y = 300;
+    enemy.body.collideWorldBounds = true;
+    return enemy;
+}
+
+function updateEnemy(enemy, start, end) {
+    if (enemy.x <= start && enemy.body.touching.down) {
+        enemy.body.velocity.x = 150;
+    } else if (enemy.x >= end) {
+        enemy.body.velocity.x = -150;
+    }
+
+    game.physics.arcade.overlap(bullets, enemy, killEnemy, null, this);
 }
