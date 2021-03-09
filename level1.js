@@ -182,7 +182,7 @@ function update() {
 
     game.physics.arcade.overlap(arlo, stars, collectStar, null, this);
     game.physics.arcade.overlap(arlo, diamonds, collectDiamond, null, this);
-    game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
+    game.physics.arcade.overlap(arlo, portal, goTolevel2, null, this);
 
     game.physics.arcade.collide(enemy1, platformsRec);
 
@@ -276,8 +276,8 @@ function changeLifebar(add = true) {
     }
 }
 
-function goToResult() {
-    game.state.start("result");
+function goTolevel2() {
+    game.state.start("level2");
 }
 
 function loseLife() {

@@ -12,4 +12,4 @@ game.playerStats = {
     startingPosY: 15,
 };
 
-game.state.start("level2");
+game.state.start("level1");

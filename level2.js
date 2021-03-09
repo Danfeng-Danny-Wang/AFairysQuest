@@ -101,11 +101,18 @@ function create() {
 
     createRecPlatforms(380, 100, 0.1, 9);
 
+    createRecPlatforms(705, 440, 0.7, 0.3);
+    createRecPlatforms(705, 440, 0.1, 1.5);
+
     strongPotion = game.add.sprite(320, 520, "strongPotion");
     strongPotion.scale.setTo(0.2, 0.2);
     game.physics.arcade.enable(strongPotion);
 
     createDiamond(375, 50);
+
+    portal = game.add.sprite(730, 470, "portal");
+    portal.scale.setTo(0.1, 0.1);
+    game.physics.arcade.enable(portal);
 
     arlo = game.add.sprite(
         game.playerStats.startingPosX,
@@ -205,6 +212,7 @@ function update() {
     );
 
     game.physics.arcade.overlap(arlo, strongPotion, jumpHigher, null, this);
+    game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
 }
 
 function jumpHigher() {
@@ -231,4 +239,8 @@ function updateEnemy(enemy, start, end) {
 
     game.physics.arcade.overlap(bullets, enemy, killEnemy, null, this);
     game.physics.arcade.collide(arlo, enemy, loseLife, null, this);
+}
+
+function goToResult() {
+    game.state.start("result");
 }
