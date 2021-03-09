@@ -1,5 +1,6 @@
 var levels = {};
-var arlo, enemy1, enemy2;
+
+var arlo, enemy1, enemy2, portal;
 var platformsRec, platformsSquare, stars, diamonds;
 var bullets;
 var bulletTime = 0;
@@ -47,9 +48,13 @@ function preload() {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    game.playerStats.startingPosX = 32;
+    game.playerStats.startingPosY = 15;
+
     var background = game.add.sprite(0, 0, "forestBG");
     background.scale.setTo(0.2, 0.2);
 
+    // Music and Sound
     game.input.touch.preventDefault = false;
 
     // var musicConfig = {
@@ -67,6 +72,7 @@ function create() {
     bulletSound = game.add.audio("bullet");
     hitSound = game.add.audio("hit");
 
+    // Lifebar
     lifebar = game.add.text(16, 16, game.playerStats.lifebar, {
         fill: "#ff0000",
     });
@@ -113,7 +119,11 @@ function create() {
     portal.scale.setTo(0.1, 0.1);
     game.physics.arcade.enable(portal);
 
-    arlo = game.add.sprite(32, 15, "arloSheet");
+    arlo = game.add.sprite(
+        game.playerStats.startingPosX,
+        game.playerStats.startingPosY,
+        "arloSheet"
+    );
     arlo.scale.setTo(0.025, 0.025);
     game.physics.arcade.enable(arlo);
 
@@ -167,12 +177,12 @@ function update() {
         arlo.body.touching.down &&
         (hitPlatformsRec || hitPlatformsSquare)
     ) {
-        arlo.body.velocity.y = -200;
+        arlo.body.velocity.y = game.playerStats.jumpStrength;
     }
 
     game.physics.arcade.overlap(arlo, stars, collectStar, null, this);
     game.physics.arcade.overlap(arlo, diamonds, collectDiamond, null, this);
-    game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
+    game.physics.arcade.overlap(arlo, portal, goTolevel2, null, this);
 
     game.physics.arcade.collide(enemy1, platformsRec);
 
@@ -266,13 +276,13 @@ function changeLifebar(add = true) {
     }
 }
 
-function goToResult() {
-    game.state.start("result");
+function goTolevel2() {
+    game.state.start("level2");
 }
 
 function loseLife() {
-    arlo.x = 32;
-    arlo.y = 15;
+    arlo.x = game.playerStats.startingPosX;
+    arlo.y = game.playerStats.startingPosY;
     changeLifebar(false);
 }
 
