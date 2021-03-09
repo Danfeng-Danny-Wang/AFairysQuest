@@ -8,6 +8,8 @@ game.playerStats = {
     jumpStrength: -200,
     life: 3,
     lifebar: "❤❤❤",
+    startingPosX: 32,
+    startingPosY: 15,
 };
 
 game.state.start("level2");

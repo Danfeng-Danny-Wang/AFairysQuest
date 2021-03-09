@@ -8,6 +8,7 @@ var fireButton;
 var facingRight = true;
 var cursors;
 var strongPotion;
+var lifebar;
 
 levels.level2 = function () {};
 
@@ -49,6 +50,9 @@ function preload() {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    game.playerStats.startingPosX = 20;
+    game.playerStats.startingPosY = 500;
+
     var background = game.add.sprite(-400, 0, "forestBG");
     background.scale.setTo(0.2, 0.2);
 
@@ -58,6 +62,10 @@ function create() {
 
     bulletSound = game.add.audio("bullet");
     hitSound = game.add.audio("hit");
+
+    lifebar = game.add.text(16, 16, game.playerStats.lifebar, {
+        fill: "#ff0000",
+    });
 
     // bullet group
     bullets = game.add.group();
@@ -97,7 +105,13 @@ function create() {
     strongPotion.scale.setTo(0.2, 0.2);
     game.physics.arcade.enable(strongPotion);
 
-    arlo = game.add.sprite(20, 500, "arloSheet");
+    createDiamond(375, 50);
+
+    arlo = game.add.sprite(
+        game.playerStats.startingPosX,
+        game.playerStats.startingPosY,
+        "arloSheet"
+    );
     arlo.scale.setTo(0.025, 0.025);
     game.physics.arcade.enable(arlo);
 
@@ -142,6 +156,8 @@ function update() {
     updateEnemy(enemy7, 250, 310);
     game.physics.arcade.collide(enemy8, platformsRec);
     updateEnemy(enemy8, 400, 720);
+
+    game.physics.arcade.overlap(arlo, diamonds, collectDiamond, null, this);
 
     arlo.body.velocity.x = 0;
 
@@ -214,4 +230,5 @@ function updateEnemy(enemy, start, end) {
     }
 
     game.physics.arcade.overlap(bullets, enemy, killEnemy, null, this);
+    game.physics.arcade.collide(arlo, enemy, loseLife, null, this);
 }

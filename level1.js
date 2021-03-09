@@ -48,6 +48,9 @@ function preload() {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    game.playerStats.startingPosX = 32;
+    game.playerStats.startingPosY = 15;
+
     var background = game.add.sprite(0, 0, "forestBG");
     background.scale.setTo(0.2, 0.2);
 
@@ -116,7 +119,11 @@ function create() {
     portal.scale.setTo(0.1, 0.1);
     game.physics.arcade.enable(portal);
 
-    arlo = game.add.sprite(32, 15, "arloSheet");
+    arlo = game.add.sprite(
+        game.playerStats.startingPosX,
+        game.playerStats.startingPosY,
+        "arloSheet"
+    );
     arlo.scale.setTo(0.025, 0.025);
     game.physics.arcade.enable(arlo);
 
@@ -274,8 +281,8 @@ function goToResult() {
 }
 
 function loseLife() {
-    arlo.x = 32;
-    arlo.y = 15;
+    arlo.x = game.playerStats.startingPosX;
+    arlo.y = game.playerStats.startingPosY;
     changeLifebar(false);
 }
 
