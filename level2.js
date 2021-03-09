@@ -92,6 +92,10 @@ function create() {
 
     createRecPlatforms(380, 100, 0.1, 9);
 
+    strongPotion = game.add.sprite(320, 520, "strongPotion");
+    strongPotion.scale.setTo(0.2, 0.2);
+    game.physics.arcade.enable(strongPotion);
+
     arlo = game.add.sprite(20, 500, "arloSheet");
     arlo.scale.setTo(0.025, 0.025);
     game.physics.arcade.enable(arlo);
@@ -132,11 +136,18 @@ function update() {
         arlo.body.touching.down &&
         (hitPlatformsRec || hitPlatformsSquare)
     ) {
-        arlo.body.velocity.y = -240;
+        arlo.body.velocity.y = game.playerStats.jumpStrength;
     }
 
     // Firing?
     if (fireButton.isDown) {
         fireBullet();
     }
+
+    game.physics.arcade.overlap(arlo, strongPotion, jumpHigher, null, this);
+}
+
+function jumpHigher() {
+    strongPotion.kill();
+    game.playerStats.jumpStrength -= 40;
 }

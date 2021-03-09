@@ -5,6 +5,7 @@ game.state.add("result", levels.result);
 
 game.playerStats = {
     movementSpeed: 100,
+    jumpStrength: -200,
     life: 3,
     lifebar: "❤❤❤",
 };

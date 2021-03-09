@@ -170,7 +170,7 @@ function update() {
         arlo.body.touching.down &&
         (hitPlatformsRec || hitPlatformsSquare)
     ) {
-        arlo.body.velocity.y = -200;
+        arlo.body.velocity.y = game.playerStats.jumpStrength;
     }
 
     game.physics.arcade.overlap(arlo, stars, collectStar, null, this);
