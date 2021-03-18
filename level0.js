@@ -1,17 +1,17 @@
-var BGMusic, bulletSound, hitSound;
+var levels = {};
+var text;
+var arlo, enemy1, portal;
 var platformsRec, platformsSquare, stars, diamonds;
-var arlo, portal;
-var enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8;
 var bullets;
 var bulletTime = 0;
 var fireButton;
 var facingRight = true;
 var cursors;
-var strongPotion;
 var lifebar;
+var BGMusic, bulletSound, hitSound;
 
-levels.level2 = function () {};
-levels.level2.prototype = {
+levels.level0 = function () {};
+levels.level0.prototype = {
     preload: preload,
     create: create,
     update: update,
@@ -33,7 +33,6 @@ function preload() {
     game.load.image("portal", "assets/sprites/portal.png");
     game.load.image("enemy", "assets/sprites/enemy_gray.png");
     game.load.image("bullet", "assets/sprites/bullet.png");
-    game.load.image("strongPotion", "assets/sprites/strong.png");
 
     game.load.audio("music", [
         "assets/sounds/bgMusic.mp3",
@@ -49,19 +48,28 @@ function preload() {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    game.playerStats.startingPosX = 20;
-    game.playerStats.startingPosY = 500;
-
-    var background = game.add.sprite(-400, 0, "forestBG");
+    game.playerStats.startingPosX = 32;
+    game.playerStats.startingPosY = 15;
+ 
+    var background = game.add.image(0, 0, "forestBG");
     background.scale.setTo(0.2, 0.2);
+    
+    var style = {fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+    text = game.add.text(250, 150, "Use Arrow Keys to Move", style)
+    text = game.add.text(230, 190, "Press 'Z' to Shoot Enemies", style)
+    text = game.add.text(210, 225, "Capture Diamond to Gain Health", style)
+    text = game.add.text(230, 260, "Capture Star to Gain Health", style)
 
+    // Music and Sound
     game.input.touch.preventDefault = false;
+
     BGMusic = game.add.audio("music");
     BGMusic.play();
 
     bulletSound = game.add.audio("bullet");
     hitSound = game.add.audio("hit");
 
+    // Lifebar
     lifebar = game.add.text(16, 16, game.playerStats.lifebar, {
         fill: "#ff0000",
     });
@@ -89,27 +97,17 @@ function create() {
     diamonds.enableBody = true;
 
     // ground
-    createRecPlatforms(0, game.world.height - 30, 6, 0.6);
+    createRecPlatforms(0, game.world.height - 33, 6, 0.5);
 
-    createRecPlatforms(0, 500, 1, 0.3);
-    createRecPlatforms(250, 430, 1, 0.3);
-    createRecPlatforms(0, 370, 1, 0.3);
-    createRecPlatforms(250, 290, 1, 0.3);
-    createRecPlatforms(0, 230, 1, 0.3);
-    createRecPlatforms(250, 150, 1, 0.3);
+    // middle top
+    createSquarePlatforms(375, 375);
+    createStar(383, 352);
 
-    createRecPlatforms(380, 100, 0.1, 9);
+    // mid box
+    createRecPlatforms(185,490, 1, 0.3);
+    createDiamond(245, 465);
 
-    createRecPlatforms(705, 440, 0.7, 0.3);
-    createRecPlatforms(705, 440, 0.1, 1.5);
-
-    strongPotion = game.add.sprite(320, 520, "strongPotion");
-    strongPotion.scale.setTo(0.2, 0.2);
-    game.physics.arcade.enable(strongPotion);
-
-    createDiamond(375, 50);
-
-    portal = game.add.sprite(730, 470, "portal");
+    portal = game.add.sprite(730, 510, "portal");
     portal.scale.setTo(0.1, 0.1);
     game.physics.arcade.enable(portal);
 
@@ -121,22 +119,18 @@ function create() {
     arlo.scale.setTo(0.025, 0.025);
     game.physics.arcade.enable(arlo);
 
-    arlo.body.bounce.y = 0.2;
+    arlo.body.bounce.y = 0.1;
     arlo.body.gravity.y = 300;
     arlo.body.collideWorldBounds = true;
 
     arlo.animations.add("walk", [0, 1, 2, 3, 4]);
 
-    enemy1 = addEnemy(400, 300);
-
-    enemy2 = addEnemy(0, 430);
-    enemy3 = addEnemy(250, 330);
-    enemy4 = addEnemy(0, 300);
-    enemy5 = addEnemy(250, 190);
-    enemy6 = addEnemy(0, 160);
-    enemy7 = addEnemy(250, 50);
-
-    enemy8 = addEnemy(400, 520);
+    enemy1 = game.add.sprite(430, 100, "enemy");
+    enemy1.scale.setTo(0.12, 0.12);
+    game.physics.arcade.enable(enemy1);
+    enemy1.body.bounce.y = 0.2;
+    enemy1.body.gravity.y = 300;
+    enemy1.body.collideWorldBounds = true;
 
     cursors = game.input.keyboard.createCursorKeys();
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Z);
@@ -145,25 +139,6 @@ function create() {
 function update() {
     var hitPlatformsRec = game.physics.arcade.collide(arlo, platformsRec);
     var hitPlatformsSquare = game.physics.arcade.collide(arlo, platformsSquare);
-
-    game.physics.arcade.collide(enemy1, platformsRec);
-    updateEnemy(enemy1, 400, 720);
-    game.physics.arcade.collide(enemy2, platformsRec);
-    updateEnemy(enemy2, 0, 100);
-    game.physics.arcade.collide(enemy3, platformsRec);
-    updateEnemy(enemy3, 250, 310);
-    game.physics.arcade.collide(enemy4, platformsRec);
-    updateEnemy(enemy4, 0, 100);
-    game.physics.arcade.collide(enemy5, platformsRec);
-    updateEnemy(enemy5, 250, 310);
-    game.physics.arcade.collide(enemy6, platformsRec);
-    updateEnemy(enemy6, 0, 100);
-    game.physics.arcade.collide(enemy7, platformsRec);
-    updateEnemy(enemy7, 250, 310);
-    game.physics.arcade.collide(enemy8, platformsRec);
-    updateEnemy(enemy8, 400, 720);
-
-    game.physics.arcade.overlap(arlo, diamonds, collectDiamond, null, this);
 
     arlo.body.velocity.x = 0;
 
@@ -190,10 +165,28 @@ function update() {
         arlo.body.velocity.y = game.playerStats.jumpStrength;
     }
 
+    game.physics.arcade.overlap(arlo, stars, collectStar, null, this);
+    game.physics.arcade.overlap(arlo, diamonds, collectDiamond, null, this);
+    game.physics.arcade.overlap(arlo, portal, goTolevel1, null, this);
+
+    game.physics.arcade.collide(enemy1, platformsRec);
+
+    if (enemy1.x <= 430 && enemy1.body.touching.down) {
+        enemy1.body.velocity.x = 150;
+    } else if (enemy1.x >= 685) {
+        enemy1.body.velocity.x = -150;
+    }
+
     // Firing?
     if (fireButton.isDown) {
         fireBullet();
     }
+
+    game.physics.arcade.collide(arlo, enemy1, loseLife, null, this);
+    
+
+    game.physics.arcade.overlap(bullets, enemy1, killEnemy, null, this);
+    
 
     game.physics.arcade.collide(
         bullets,
@@ -209,37 +202,93 @@ function update() {
         null,
         this
     );
-
-    game.physics.arcade.overlap(arlo, strongPotion, jumpHigher, null, this);
-    game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
 }
 
-function jumpHigher() {
-    strongPotion.kill();
-    game.playerStats.jumpStrength -= 40;
+function createRecPlatforms(x, y, scaleX, scaleY) {
+    var platform = platformsRec.create(x, y, "platformRec");
+    platform.scale.setTo(scaleX, scaleY);
+    platform.body.immovable = true;
 }
 
-function addEnemy(x, y) {
-    var enemy = game.add.sprite(x, y, "enemy");
-    enemy.scale.setTo(0.12, 0.12);
-    game.physics.arcade.enable(enemy);
-    enemy.body.bounce.y = 0.2;
-    enemy.body.gravity.y = 300;
-    enemy.body.collideWorldBounds = true;
-    return enemy;
+function createSquarePlatforms(x, y) {
+    var platform = platformsSquare.create(x, y, "platformSquare");
+    platform.body.immovable = true;
 }
 
-function updateEnemy(enemy, start, end) {
-    if (enemy.x <= start && enemy.body.touching.down) {
-        enemy.body.velocity.x = 150;
-    } else if (enemy.x >= end) {
-        enemy.body.velocity.x = -150;
+function createStar(x, y) {
+    var star = stars.create(x, y, "star");
+    star.body.immovable = true;
+}
+
+function createDiamond(x, y) {
+    var diamond = diamonds.create(x, y, "diamond");
+    diamond.scale.setTo(0.8, 0.8);
+    diamond.body.immovable = true;
+}
+
+function collectStar(arlo, star) {
+    star.kill();
+    game.playerStats.movementSpeed += 50;
+}
+
+function collectDiamond(arlo, diamond) {
+    diamond.kill();
+    changeLifebar();
+}
+
+function changeLifebar(add = true) {
+    if (add) {
+        game.playerStats.life++;
+        generateLifebar();
+        lifebar.text = game.playerStats.lifebar;
+    } else {
+        game.playerStats.life--;
+
+        if (game.playerStats.life === 0) {
+            game.state.start("result");
+        }
+
+        generateLifebar();
+        lifebar.text = game.playerStats.lifebar;
     }
-
-    game.physics.arcade.overlap(bullets, enemy, killEnemy, null, this);
-    game.physics.arcade.collide(arlo, enemy, loseLife, null, this);
 }
 
-function goToResult() {
-    game.state.start("result");
+function goTolevel1() {
+    game.state.start("level1");
+}
+
+function loseLife() {
+    arlo.x = game.playerStats.startingPosX;
+    arlo.y = game.playerStats.startingPosY;
+    changeLifebar(false);
+}
+
+function generateLifebar() {
+    game.playerStats.lifebar = "";
+    for (var i = 0; i < game.playerStats.life; i++) {
+        game.playerStats.lifebar += "❤";
+    }
+}
+
+function fireBullet() {
+    if (game.time.now > bulletTime) {
+        bullet = bullets.getFirstExists(false);
+
+        if (bullet) {
+            bullet.reset(arlo.x + 26, arlo.y + 25);
+            bullet.body.velocity.x = facingRight ? 400 : -400;
+            bulletTime = game.time.now + 200;
+            bulletSound.play();
+        }
+    }
+}
+
+function killEnemy(bullet, enemy) {
+    bullet.kill();
+    enemy.kill();
+    hitSound.play();
+}
+
+function bulletsHitWall(bullet, wall) {
+    bullet.kill();
 }

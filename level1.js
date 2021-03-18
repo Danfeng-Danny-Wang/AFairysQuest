@@ -1,5 +1,3 @@
-var levels = {};
-
 var arlo, enemy1, enemy2, portal;
 var platformsRec, platformsSquare, stars, diamonds;
 var bullets;
@@ -57,15 +55,6 @@ function create() {
     // Music and Sound
     game.input.touch.preventDefault = false;
 
-    // var musicConfig = {
-    //     mute: false,
-    //     volume: 1,
-    //     rate: 1,
-    //     detune: 0,
-    //     seek: 0,
-    //     loop: false,
-    //     delay: 0,
-    // };
     BGMusic = game.add.audio("music");
     BGMusic.play();
 
