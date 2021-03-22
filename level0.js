@@ -99,13 +99,12 @@ function create() {
     // ground
     createRecPlatforms(0, game.world.height - 33, 6, 0.5);
 
-    // middle top
-    createSquarePlatforms(375, 375);
-    createStar(383, 352);
+    createSquarePlatforms(355, 450);
+    createStar(360, 425);
 
     // mid box
-    createRecPlatforms(185,490, 1, 0.3);
-    createDiamond(245, 465);
+    createRecPlatforms(150,500, 1, 0.3);
+    createDiamond(207, 477);
 
     portal = game.add.sprite(730, 510, "portal");
     portal.scale.setTo(0.1, 0.1);

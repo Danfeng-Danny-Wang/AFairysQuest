@@ -27,5 +27,5 @@ function fn1(i, args) {
     game.playerStats.lifebar = "❤❤❤";
     game.playerStats.movementSpeed = 100;
     game.playerStats.jumpStrength = -200;
-    game.state.start("level1");
+    game.state.start("level0");
 }
