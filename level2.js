@@ -1,5 +1,5 @@
 var BGMusic, bulletSound, hitSound;
-var platformsRec, platformsSquare, stars, diamonds;
+var platformsRec, platformsSquare, stars, hearts;
 var arlo, portal;
 var enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8;
 var bullets;
@@ -29,7 +29,7 @@ function preload() {
     game.load.image("platformRec", "assets/sprites/rect-platf.png");
     game.load.image("platformSquare", "assets/sprites/square-platf.png");
     game.load.image("star", "assets/sprites/star.png");
-    game.load.image("diamond", "assets/sprites/diamond.png");
+    game.load.image("heart", "assets/sprites/heart.png");
     game.load.image("portal", "assets/sprites/portal.png");
     game.load.image("enemy", "assets/sprites/enemy_gray.png");
     game.load.image("bullet", "assets/sprites/bullet.png");
@@ -85,8 +85,8 @@ function create() {
     stars = game.add.group();
     stars.enableBody = true;
 
-    diamonds = game.add.group();
-    diamonds.enableBody = true;
+    hearts = game.add.group();
+    hearts.enableBody = true;
 
     // ground
     createRecPlatforms(0, game.world.height - 30, 6, 0.6);
@@ -107,7 +107,7 @@ function create() {
     strongPotion.scale.setTo(0.2, 0.2);
     game.physics.arcade.enable(strongPotion);
 
-    createDiamond(375, 50);
+    createHeart(375, 50);
 
     portal = game.add.sprite(730, 470, "portal");
     portal.scale.setTo(0.1, 0.1);
@@ -163,7 +163,7 @@ function update() {
     game.physics.arcade.collide(enemy8, platformsRec);
     updateEnemy(enemy8, 400, 720);
 
-    game.physics.arcade.overlap(arlo, diamonds, collectDiamond, null, this);
+    game.physics.arcade.overlap(arlo, hearts, collectHeart, null, this);
 
     arlo.body.velocity.x = 0;
 

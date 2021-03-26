@@ -1,5 +1,5 @@
 var arlo, enemy1, enemy2, portal;
-var platformsRec, platformsSquare, stars, diamonds;
+var platformsRec, platformsSquare, stars, hearts;
 var bullets;
 var bulletTime = 0;
 var fireButton;
@@ -27,7 +27,7 @@ function preload() {
     game.load.image("platformRec", "assets/sprites/rect-platf.png");
     game.load.image("platformSquare", "assets/sprites/square-platf.png");
     game.load.image("star", "assets/sprites/star.png");
-    game.load.image("diamond", "assets/sprites/diamond.png");
+    game.load.image("heart", "assets/sprites/heart.png");
     game.load.image("portal", "assets/sprites/portal.png");
     game.load.image("enemy", "assets/sprites/enemy_gray.png");
     game.load.image("bullet", "assets/sprites/bullet.png");
@@ -85,8 +85,8 @@ function create() {
     stars = game.add.group();
     stars.enableBody = true;
 
-    diamonds = game.add.group();
-    diamonds.enableBody = true;
+    hearts = game.add.group();
+    hearts.enableBody = true;
 
     // ground
     createRecPlatforms(0, game.world.height - 33, 6, 0.5);
@@ -102,7 +102,7 @@ function create() {
 
     // mid box
     createSquarePlatforms(240, 250);
-    createDiamond(245, 225);
+    createHeart(245, 225);
 
     portal = game.add.sprite(730, 510, "portal");
     portal.scale.setTo(0.1, 0.1);
@@ -170,7 +170,7 @@ function update() {
     }
 
     game.physics.arcade.overlap(arlo, stars, collectStar, null, this);
-    game.physics.arcade.overlap(arlo, diamonds, collectDiamond, null, this);
+    game.physics.arcade.overlap(arlo, hearts, collectHeart, null, this);
     game.physics.arcade.overlap(arlo, portal, goTolevel2, null, this);
 
     game.physics.arcade.collide(enemy1, platformsRec);
@@ -232,10 +232,10 @@ function createStar(x, y) {
     star.body.immovable = true;
 }
 
-function createDiamond(x, y) {
-    var diamond = diamonds.create(x, y, "diamond");
-    diamond.scale.setTo(0.8, 0.8);
-    diamond.body.immovable = true;
+function createHeart(x, y) {
+    var heart = hearts.create(x, y, "heart");
+    heart.scale.setTo(0.8, 0.8);
+    heart.body.immovable = true;
 }
 
 function collectStar(arlo, star) {
@@ -243,8 +243,8 @@ function collectStar(arlo, star) {
     game.playerStats.movementSpeed += 50;
 }
 
-function collectDiamond(arlo, diamond) {
-    diamond.kill();
+function collectHeart(arlo, heart) {
+    heart.kill();
     changeLifebar();
 }
 
