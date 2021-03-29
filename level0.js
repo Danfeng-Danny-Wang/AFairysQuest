@@ -55,10 +55,10 @@ function create() {
     background.scale.setTo(0.2, 0.2);
     
     var style = {fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-    text = game.add.text(250, 150, "Use Arrow Keys to Move", style)
+    text = game.add.text(250, 155, "Use Arrow Keys to Move", style)
     text = game.add.text(230, 190, "Press 'Z' to Shoot Enemies", style)
-    text = game.add.text(210, 225, "Capture heart to Gain Health", style)
-    text = game.add.text(230, 260, "Capture Star to Gain Health", style)
+    text = game.add.text(220, 225, "Capture Heart to Gain Health", style)
+    text = game.add.text(220, 260, "Capture Star to Move Faster", style)
 
     // Music and Sound
     game.input.touch.preventDefault = false;
@@ -104,7 +104,7 @@ function create() {
 
     // mid box
     createRecPlatforms(150,500, 1, 0.3);
-    createHeart(207, 477);
+    createHeart(140,410);
 
     portal = game.add.sprite(730, 510, "portal");
     portal.scale.setTo(0.1, 0.1);
@@ -221,7 +221,7 @@ function createStar(x, y) {
 
 function createHeart(x, y) {
     var heart = hearts.create(x, y, "heart");
-    heart.scale.setTo(0.8, 0.8);
+    heart.scale.setTo(0.4, 0.4);
     heart.body.immovable = true;
 }
 

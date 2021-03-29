@@ -7,7 +7,7 @@ var bulletTime = 0;
 var fireButton;
 var facingRight = true;
 var cursors;
-var strongPotion;
+var feather;
 var lifebar;
 
 levels.level2 = function () {};
@@ -33,7 +33,7 @@ function preload() {
     game.load.image("portal", "assets/sprites/portal.png");
     game.load.image("enemy", "assets/sprites/enemy_gray.png");
     game.load.image("bullet", "assets/sprites/bullet.png");
-    game.load.image("strongPotion", "assets/sprites/strong.png");
+    game.load.image("feather", "assets/sprites/jump.png");
 
     game.load.audio("music", [
         "assets/sounds/bgMusic.mp3",
@@ -54,6 +54,9 @@ function create() {
 
     var background = game.add.sprite(-400, 0, "forestBG");
     background.scale.setTo(0.2, 0.2);
+
+    var style = {fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+    text = game.add.text(250, 150, "The Feather will make you Jump Higher", style)
 
     game.input.touch.preventDefault = false;
     BGMusic = game.add.audio("music");
@@ -103,9 +106,9 @@ function create() {
     createRecPlatforms(705, 440, 0.7, 0.3);
     createRecPlatforms(705, 440, 0.1, 1.5);
 
-    strongPotion = game.add.sprite(320, 520, "strongPotion");
-    strongPotion.scale.setTo(0.2, 0.2);
-    game.physics.arcade.enable(strongPotion);
+    feather = game.add.sprite(320, 520, "feather");
+    feather.scale.setTo(0.2, 0.2);
+    game.physics.arcade.enable(feather);
 
     createHeart(375, 50);
 
@@ -210,12 +213,12 @@ function update() {
         this
     );
 
-    game.physics.arcade.overlap(arlo, strongPotion, jumpHigher, null, this);
+    game.physics.arcade.overlap(arlo, feather, jumpHigher, null, this);
     game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
 }
 
 function jumpHigher() {
-    strongPotion.kill();
+    feather.kill();
     game.playerStats.jumpStrength -= 40;
 }
 
