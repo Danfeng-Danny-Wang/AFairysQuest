@@ -108,8 +108,8 @@ function create() {
     createRecPlatforms(705, 440, 0.7, 0.3);
     createRecPlatforms(705, 440, 0.1, 1.5);
 
-    feather = game.add.sprite(320, 505, "feather");
-    feather.scale.setTo(0.065, 0.065);
+    feather = game.add.sprite(320, 530, "feather");
+    feather.scale.setTo(0.06, 0.03);
     game.physics.arcade.enable(feather);
 
     createHeart(375, 50);
