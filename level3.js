@@ -49,8 +49,8 @@ function preload() {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    game.playerStats.startingPosX = 20;
-    game.playerStats.startingPosY = 500;
+    game.playerStats.startingPosX = 40;
+    game.playerStats.startingPosY = 30;
 
     var background = game.add.sprite(0, 0, "forestBG");
     background.scale.setTo(0.6, 0.6);
@@ -89,6 +89,11 @@ function create() {
     hearts.enableBody = true;
 
     // TODO: create platforms
+    createRecPlatforms(0, game.world.height - 12, 6, 0.25);
+
+    createRecPlatforms(40, 70, 0.5, 0.3);
+    createSquarePlatforms(170, 260);
+    createSquarePlatforms(330, 220);
 
     portal = game.add.sprite(730, 470, "portal");
     portal.scale.setTo(0.1, 0.1);
