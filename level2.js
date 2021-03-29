@@ -56,7 +56,9 @@ function create() {
     background.scale.setTo(0.2, 0.2);
 
     var style = {fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-    text = game.add.text(250, 150, "The Feather will make you Jump Higher", style)
+    text = game.add.text(440, 150, "The Feather will make you", style)
+    text = game.add.text(510, 180, "Jump Higher", style)
+
 
     game.input.touch.preventDefault = false;
     BGMusic = game.add.audio("music");
@@ -106,8 +108,8 @@ function create() {
     createRecPlatforms(705, 440, 0.7, 0.3);
     createRecPlatforms(705, 440, 0.1, 1.5);
 
-    feather = game.add.sprite(320, 520, "feather");
-    feather.scale.setTo(0.2, 0.2);
+    feather = game.add.sprite(320, 505, "feather");
+    feather.scale.setTo(0.065, 0.065);
     game.physics.arcade.enable(feather);
 
     createHeart(375, 50);
