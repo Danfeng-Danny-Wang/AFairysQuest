@@ -1,7 +1,10 @@
 var BGMusic, bulletSound, hitSound;
 var platformsRec, platformsSquare, stars, hearts;
 var arlo, portal;
-// var enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8;
+
+// TODO: add enemy
+var enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7;
+
 var bullets;
 var bulletTime = 0;
 var fireButton;
@@ -94,8 +97,14 @@ function create() {
     createRecPlatforms(40, 70, 0.5, 0.3);
     createSquarePlatforms(170, 260);
     createSquarePlatforms(330, 220);
+    createSquarePlatforms(60, 350);
+    createSquarePlatforms(170, 420);
+    createSquarePlatforms(280, 490);
+    createSquarePlatforms(400, 520);
+    createSquarePlatforms(460, 170);
+    createSquarePlatforms(600, 120);
 
-    portal = game.add.sprite(730, 470, "portal");
+    portal = game.add.sprite(730, 20, "portal");
     portal.scale.setTo(0.1, 0.1);
     game.physics.arcade.enable(portal);
 
@@ -113,7 +122,14 @@ function create() {
 
     arlo.animations.add("walk", [0, 1, 2, 3, 4]);
 
-    // TODO: create enemies
+    // TODO: create enemies'
+    enemy1 = addEnemy(30, 500);
+    enemy2 = addEnemy(30, 400);
+    enemy3 = addEnemy(30, 300);
+    enemy4 = addEnemy(30, 300);
+    enemy5 = addEnemy(200, 500);
+    enemy6 = addEnemy(450, 500);
+    enemy7 = addEnemy(450, 300);
 
     cursors = game.input.keyboard.createCursorKeys();
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Z);
@@ -124,6 +140,20 @@ function update() {
     var hitPlatformsSquare = game.physics.arcade.collide(arlo, platformsSquare);
 
     //TODO: enemy physics
+    game.physics.arcade.collide(enemy1, platformsRec);
+    updateEnemy(enemy1, 30, 700);
+    game.physics.arcade.collide(enemy2, platformsRec);
+    updateEnemy(enemy2, 30, 700);
+    game.physics.arcade.collide(enemy3, platformsRec);
+    updateEnemy(enemy3, 30, 700);
+    game.physics.arcade.collide(enemy4, platformsRec);
+    updateEnemy(enemy4, 30, 350);
+    game.physics.arcade.collide(enemy5, platformsRec);
+    updateEnemy(enemy5, 200, 700);
+    game.physics.arcade.collide(enemy6, platformsRec);
+    updateEnemy(enemy6, 450, 700);
+    game.physics.arcade.collide(enemy7, platformsRec);
+    updateEnemy(enemy7, 450, 700);
 
     game.physics.arcade.overlap(arlo, hearts, collectHeart, null, this);
 
