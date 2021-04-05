@@ -204,3 +204,7 @@ function update() {
 
     game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
 }
+
+function goToResult() {
+    game.state.start("result");
+}

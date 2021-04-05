@@ -55,8 +55,17 @@ function create() {
     var background = game.add.sprite(-400, 0, "forestBG");
     background.scale.setTo(0.2, 0.2);
 
-    var style = {fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-    text = game.add.text(250, 150, "The Feather will make you Jump Higher", style)
+    var style = {
+        fill: "#fff",
+        boundsAlignH: "center",
+        boundsAlignV: "middle",
+    };
+    text = game.add.text(
+        250,
+        150,
+        "The Feather will make you Jump Higher",
+        style
+    );
 
     game.input.touch.preventDefault = false;
     BGMusic = game.add.audio("music");
@@ -214,7 +223,7 @@ function update() {
     );
 
     game.physics.arcade.overlap(arlo, feather, jumpHigher, null, this);
-    game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
+    game.physics.arcade.overlap(arlo, portal, goToLevel3, null, this);
 }
 
 function jumpHigher() {
@@ -243,6 +252,6 @@ function updateEnemy(enemy, start, end) {
     game.physics.arcade.collide(arlo, enemy, loseLife, null, this);
 }
 
-function goToResult() {
-    game.state.start("result");
+function goToLevel3() {
+    game.state.start("level3");
 }
