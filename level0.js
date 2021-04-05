@@ -104,7 +104,7 @@ function create() {
 
     // mid box
     createRecPlatforms(150,500, 1, 0.3);
-    createHeart(140,410);
+    createHeart(210,473);
 
     portal = game.add.sprite(730, 510, "portal");
     portal.scale.setTo(0.1, 0.1);
