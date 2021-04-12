@@ -144,7 +144,7 @@ function update() {
     arlo.body.velocity.x = 0;
 
     if (cursors.left.isDown) {
-        arlo.scale.setTo(0.025, 0.025); // change to minus
+        arlo.scale.setTo(0.025, 0.025); 
         arlo.body.velocity.x = -1 * game.playerStats.movementSpeed;
         facingRight = false;
         arlo.animations.play("left", 14, true);
