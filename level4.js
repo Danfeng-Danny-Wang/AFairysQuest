@@ -53,7 +53,7 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     // TODO: Change starting position
-    game.playerStats.startingPosX = 40;
+    game.playerStats.startingPosX = 20;
     game.playerStats.startingPosY = 30;
 
     var background = game.add.sprite(0, 0, "forestBG");
@@ -95,8 +95,10 @@ function create() {
     // TODO: create platforms
     createRecPlatforms(0, game.world.height - 12, 6, 0.25);
 
+    createRecPlatforms(0, 80, 5.4, 0.25);
+
     // TODO: portal position
-    portal = game.add.sprite(730, 20, "portal");
+    portal = game.add.sprite(740, 535, "portal");
     portal.scale.setTo(0.1, 0.1);
     game.physics.arcade.enable(portal);
 
