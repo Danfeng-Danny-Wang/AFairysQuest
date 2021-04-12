@@ -1,4 +1,3 @@
-var levels = {};
 var text;
 var arlo, enemy1, portal;
 var platformsRec, platformsSquare, stars, hearts;
