@@ -96,6 +96,25 @@ function create() {
     createRecPlatforms(0, game.world.height - 12, 6, 0.25);
 
     createRecPlatforms(0, 80, 5.4, 0.25);
+    createSquarePlatforms(60, 45, 0.5, 0.3);
+    createSquarePlatforms(365, 45, 0.5, 0.3);
+    createSquarePlatforms(710, 45, 0.5, 0.3);
+
+    createRecPlatforms(55, 180, 5.4, 0.25);
+    createSquarePlatforms(55, 145, 0.5, 0.3);
+    createSquarePlatforms(560, 145, 0.5, 0.3);
+    createSquarePlatforms(305, 145, 0.5, 0.3);
+
+    createRecPlatforms(0, 280, 5.4, 0.25);
+    createSquarePlatforms(200, 245, 0.5, 0.3);
+    createSquarePlatforms(709, 245, 0.5, 0.3);
+    createSquarePlatforms(450, 245, 0.5, 0.3);
+
+    createRecPlatforms(55, 380, 5.4, 0.25);
+    createSquarePlatforms(55, 345, 0.5, 0.3);
+    createSquarePlatforms(620, 345, 0.5, 0.3);
+    createSquarePlatforms(415, 345, 0.5, 0.3);
+    createSquarePlatforms(230, 345, 0.5, 0.3);
 
     // TODO: portal position
     portal = game.add.sprite(740, 535, "portal");
