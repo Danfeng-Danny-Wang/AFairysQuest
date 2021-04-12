@@ -7,12 +7,12 @@ game.state.add("level4", levels.level4);
 game.state.add("result", levels.result);
 
 game.playerStats = {
-    movementSpeed: 200,
-    jumpStrength: -240,
+    movementSpeed: 100,
+    jumpStrength: -200,
     life: 3,
     lifebar: "❤❤❤",
     startingPosX: 32,
     startingPosY: 15,
 };
 
-game.state.start("level4");
+game.state.start("level0");
