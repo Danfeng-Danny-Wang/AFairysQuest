@@ -287,7 +287,7 @@ function fireBullet() {
         bullet = bullets.getFirstExists(false);
 
         if (bullet) {
-            bullet.reset(arlo.x + 26, arlo.y + 25);
+            bullet.reset(arlo.x, arlo.y + 25);
             bullet.body.velocity.x = facingRight ? 400 : -400;
             bulletTime = game.time.now + 200;
             bulletSound.play();
