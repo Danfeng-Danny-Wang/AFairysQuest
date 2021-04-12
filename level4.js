@@ -3,7 +3,23 @@ var platformsRec, platformsSquare, stars, hearts;
 var arlo, portal;
 
 // TODO: add enemy
-var enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7;
+var enemy1,
+    enemy2,
+    enemy3,
+    enemy4,
+    enemy5,
+    enemy6,
+    enemy7,
+    enemy8,
+    enemy9,
+    enemy10,
+    enemy11,
+    enemy12,
+    enemy13,
+    enemy14,
+    enemy15,
+    enemy16,
+    enemy17;
 
 var bullets;
 var bulletTime = 0;
@@ -146,6 +162,23 @@ function create() {
     arlo.animations.add("walk", [0, 1, 2, 3, 4]);
 
     // TODO: create enemies'
+    enemy1 = addEnemy(100, 0);
+    enemy2 = addEnemy(400, 0);
+    enemy3 = addEnemy(100, 100);
+    enemy4 = addEnemy(350, 100);
+    enemy5 = addEnemy(600, 100);
+    enemy6 = addEnemy(0, 200);
+    enemy7 = addEnemy(245, 200);
+    enemy8 = addEnemy(490, 200);
+    enemy9 = addEnemy(100, 300);
+    enemy10 = addEnemy(270, 300);
+    enemy11 = addEnemy(450, 300);
+    enemy12 = addEnemy(655, 300);
+    enemy13 = addEnemy(60, 400);
+    enemy14 = addEnemy(400, 400);
+    enemy15 = addEnemy(0, 500);
+    enemy16 = addEnemy(250, 500);
+    enemy17 = addEnemy(640, 500);
 
     cursors = game.input.keyboard.createCursorKeys();
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Z);
@@ -156,6 +189,40 @@ function update() {
     var hitPlatformsSquare = game.physics.arcade.collide(arlo, platformsSquare);
 
     //TODO: enemy physics
+    game.physics.arcade.collide(enemy1, platformsRec);
+    updateEnemy(enemy1, 100, 300);
+    game.physics.arcade.collide(enemy2, platformsRec);
+    updateEnemy(enemy2, 400, 650);
+    game.physics.arcade.collide(enemy3, platformsRec);
+    updateEnemy(enemy3, 100, 250);
+    game.physics.arcade.collide(enemy4, platformsRec);
+    updateEnemy(enemy4, 350, 500);
+    game.physics.arcade.collide(enemy5, platformsRec);
+    updateEnemy(enemy5, 600, 730);
+    game.physics.arcade.collide(enemy6, platformsRec);
+    updateEnemy(enemy6, 0, 145);
+    game.physics.arcade.collide(enemy7, platformsRec);
+    updateEnemy(enemy7, 245, 385);
+    game.physics.arcade.collide(enemy8, platformsRec);
+    updateEnemy(enemy8, 490, 650);
+    game.physics.arcade.collide(enemy9, platformsRec);
+    updateEnemy(enemy9, 100, 170);
+    game.physics.arcade.collide(enemy10, platformsRec);
+    updateEnemy(enemy10, 270, 360);
+    game.physics.arcade.collide(enemy11, platformsRec);
+    updateEnemy(enemy11, 450, 570);
+    game.physics.arcade.collide(enemy12, platformsRec);
+    updateEnemy(enemy12, 655, 730);
+    game.physics.arcade.collide(enemy13, platformsRec);
+    updateEnemy(enemy13, 60, 290);
+    game.physics.arcade.collide(enemy14, platformsRec);
+    updateEnemy(enemy14, 400, 630);
+    game.physics.arcade.collide(enemy15, platformsRec);
+    updateEnemy(enemy15, 0, 150);
+    game.physics.arcade.collide(enemy16, platformsRec);
+    updateEnemy(enemy16, 250, 530);
+    game.physics.arcade.collide(enemy17, platformsRec);
+    updateEnemy(enemy17, 640, 730);
 
     game.physics.arcade.overlap(arlo, hearts, collectHeart, null, this);
 
