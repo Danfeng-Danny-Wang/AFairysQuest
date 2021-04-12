@@ -116,6 +116,16 @@ function create() {
     createSquarePlatforms(415, 345, 0.5, 0.3);
     createSquarePlatforms(230, 345, 0.5, 0.3);
 
+    createRecPlatforms(55, 480, 5.4, 0.25);
+    createSquarePlatforms(350, 445, 0.5, 0.3);
+    createSquarePlatforms(700, 445, 0.5, 0.3);
+
+    createSquarePlatforms(200, 552, 0.5, 0.3);
+    createSquarePlatforms(600, 552, 0.5, 0.3);
+
+    // TODO: create Hearts, etc.
+    createHeart(750, 450);
+
     // TODO: portal position
     portal = game.add.sprite(740, 535, "portal");
     portal.scale.setTo(0.1, 0.1);
