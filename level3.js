@@ -1,24 +1,27 @@
 var BGMusic, bulletSound, hitSound;
 var platformsRec, platformsSquare, stars, hearts;
 var arlo, portal;
-var enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7, enemy8;
+
+// TODO: add enemy
+var enemy1, enemy2, enemy3, enemy4, enemy5, enemy6, enemy7;
+
 var bullets;
 var bulletTime = 0;
 var fireButton;
 var facingRight = true;
 var cursors;
-var feather;
+// var feather;
 var lifebar;
 
-levels.level2 = function () {};
-levels.level2.prototype = {
+levels.level3 = function () {};
+levels.level3.prototype = {
     preload: preload,
     create: create,
     update: update,
 };
 
 function preload() {
-    game.load.image("forestBG", "assets/sprites/2070.png");
+    game.load.image("forestBG", "assets/sprites/forestBG.png");
     game.load.image("arlo", "assets/sprites/arlo.png");
     game.load.spritesheet(
         "arloSheet",
@@ -49,19 +52,11 @@ function preload() {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    game.playerStats.startingPosX = 20;
-    game.playerStats.startingPosY = 500;
+    game.playerStats.startingPosX = 40;
+    game.playerStats.startingPosY = 30;
 
-    var background = game.add.sprite(-400, 0, "forestBG");
-    background.scale.setTo(0.2, 0.2);
-
-    var style = {
-        fill: "#fff",
-        boundsAlignH: "center",
-        boundsAlignV: "middle",
-    };
-    text = game.add.text(440, 150, "The Feather will make you", style);
-    text = game.add.text(510, 180, "Jump Higher", style);
+    var background = game.add.sprite(0, 0, "forestBG");
+    background.scale.setTo(0.6, 0.6);
 
     game.input.touch.preventDefault = false;
     BGMusic = game.add.audio("music");
@@ -96,28 +91,20 @@ function create() {
     hearts = game.add.group();
     hearts.enableBody = true;
 
-    // ground
-    createRecPlatforms(0, game.world.height - 30, 6, 0.6);
+    // TODO: create platforms
+    createRecPlatforms(0, game.world.height - 12, 6, 0.25);
 
-    createRecPlatforms(0, 500, 1, 0.3);
-    createRecPlatforms(250, 430, 1, 0.3);
-    createRecPlatforms(0, 370, 1, 0.3);
-    createRecPlatforms(250, 290, 1, 0.3);
-    createRecPlatforms(0, 230, 1, 0.3);
-    createRecPlatforms(250, 150, 1, 0.3);
+    createRecPlatforms(40, 70, 0.5, 0.3);
+    createSquarePlatforms(170, 260);
+    createSquarePlatforms(330, 220);
+    createSquarePlatforms(60, 350);
+    createSquarePlatforms(170, 420);
+    createSquarePlatforms(280, 490);
+    createSquarePlatforms(400, 520);
+    createSquarePlatforms(460, 170);
+    createSquarePlatforms(600, 120);
 
-    createRecPlatforms(380, 100, 0.1, 9);
-
-    createRecPlatforms(705, 440, 0.7, 0.3);
-    createRecPlatforms(705, 440, 0.1, 1.5);
-
-    feather = game.add.sprite(320, 530, "feather");
-    feather.scale.setTo(0.06, 0.03);
-    game.physics.arcade.enable(feather);
-
-    createHeart(375, 50);
-
-    portal = game.add.sprite(730, 470, "portal");
+    portal = game.add.sprite(730, 20, "portal");
     portal.scale.setTo(0.1, 0.1);
     game.physics.arcade.enable(portal);
 
@@ -135,16 +122,14 @@ function create() {
 
     arlo.animations.add("walk", [0, 1, 2, 3, 4]);
 
-    enemy1 = addEnemy(400, 300);
-
-    enemy2 = addEnemy(0, 430);
-    enemy3 = addEnemy(250, 330);
-    enemy4 = addEnemy(0, 300);
-    enemy5 = addEnemy(250, 190);
-    enemy6 = addEnemy(0, 160);
-    enemy7 = addEnemy(250, 50);
-
-    enemy8 = addEnemy(400, 520);
+    // TODO: create enemies'
+    enemy1 = addEnemy(30, 500);
+    enemy2 = addEnemy(30, 400);
+    enemy3 = addEnemy(30, 300);
+    enemy4 = addEnemy(30, 300);
+    enemy5 = addEnemy(200, 500);
+    enemy6 = addEnemy(450, 500);
+    enemy7 = addEnemy(450, 300);
 
     cursors = game.input.keyboard.createCursorKeys();
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Z);
@@ -154,22 +139,21 @@ function update() {
     var hitPlatformsRec = game.physics.arcade.collide(arlo, platformsRec);
     var hitPlatformsSquare = game.physics.arcade.collide(arlo, platformsSquare);
 
+    //TODO: enemy physics
     game.physics.arcade.collide(enemy1, platformsRec);
-    updateEnemy(enemy1, 400, 720);
+    updateEnemy(enemy1, 30, 700);
     game.physics.arcade.collide(enemy2, platformsRec);
-    updateEnemy(enemy2, 0, 100);
+    updateEnemy(enemy2, 30, 700);
     game.physics.arcade.collide(enemy3, platformsRec);
-    updateEnemy(enemy3, 250, 310);
+    updateEnemy(enemy3, 30, 700);
     game.physics.arcade.collide(enemy4, platformsRec);
-    updateEnemy(enemy4, 0, 100);
+    updateEnemy(enemy4, 30, 350);
     game.physics.arcade.collide(enemy5, platformsRec);
-    updateEnemy(enemy5, 250, 310);
+    updateEnemy(enemy5, 200, 700);
     game.physics.arcade.collide(enemy6, platformsRec);
-    updateEnemy(enemy6, 0, 100);
+    updateEnemy(enemy6, 450, 700);
     game.physics.arcade.collide(enemy7, platformsRec);
-    updateEnemy(enemy7, 250, 310);
-    game.physics.arcade.collide(enemy8, platformsRec);
-    updateEnemy(enemy8, 400, 720);
+    updateEnemy(enemy7, 450, 700);
 
     game.physics.arcade.overlap(arlo, hearts, collectHeart, null, this);
 
@@ -218,36 +202,9 @@ function update() {
         this
     );
 
-    game.physics.arcade.overlap(arlo, feather, jumpHigher, null, this);
-    game.physics.arcade.overlap(arlo, portal, goToLevel3, null, this);
+    game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
 }
 
-function jumpHigher() {
-    feather.kill();
-    game.playerStats.jumpStrength -= 40;
-}
-
-function addEnemy(x, y) {
-    var enemy = game.add.sprite(x, y, "enemy");
-    enemy.scale.setTo(0.12, 0.12);
-    game.physics.arcade.enable(enemy);
-    enemy.body.bounce.y = 0.2;
-    enemy.body.gravity.y = 300;
-    enemy.body.collideWorldBounds = true;
-    return enemy;
-}
-
-function updateEnemy(enemy, start, end) {
-    if (enemy.x <= start && enemy.body.touching.down) {
-        enemy.body.velocity.x = 150;
-    } else if (enemy.x >= end) {
-        enemy.body.velocity.x = -150;
-    }
-
-    game.physics.arcade.overlap(bullets, enemy, killEnemy, null, this);
-    game.physics.arcade.collide(arlo, enemy, loseLife, null, this);
-}
-
-function goToLevel3() {
-    game.state.start("level3");
+function goToResult() {
+    game.state.start("result");
 }
