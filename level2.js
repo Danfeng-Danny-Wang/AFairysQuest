@@ -21,8 +21,8 @@ function preload() {
     game.load.image("forestBG", "assets/sprites/2070.png");
     game.load.image("arlo", "assets/sprites/arlo.png");
     game.load.spritesheet(
-        "arloSheet-2",
-        "assets/sprites/arloSheet.png",
+        "arloSheet",
+        "assets/sprites/arloSheet-2.png",
         1000,
         1687
     );
