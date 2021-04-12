@@ -172,12 +172,9 @@ function update() {
         arlo.animations.play("right", 14, true);
     } else {
         arlo.animations.stop();
-        if (facingRight == false)
-        {
+        if (facingRight == false) {
             arlo.frame = 5;
-        }
-        else
-        {
+        } else {
             arlo.frame = 0;
         }
     }
@@ -210,9 +207,9 @@ function update() {
         this
     );
 
-    game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
+    game.physics.arcade.overlap(arlo, portal, goToLevel4, null, this);
 }
 
-function goToResult() {
-    game.state.start("result");
+function goToLevel4() {
+    game.state.start("level4");
 }
