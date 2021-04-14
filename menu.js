@@ -1,14 +1,12 @@
-levels.result = function () {};
-levels.result.prototype = {
+levels.menu = function () {};
+levels.menu.prototype = {
     preload: function () {},
     create: function () {
         game.stage.backgroundColor = "#5ac18e";
-
-        var resultText = game.playerStats.life > 0 ? "Win!" : "Game Over!";
-        var result = game.add.text(
+        var menu = game.add.text(
             300,
             230,
-            `${resultText}\nPress Z to restart`,
+            `\nPress Z to Start`,
             {
                 fontSize: "32px",
                 fill: "#dde587",
@@ -27,5 +25,5 @@ function fn1(i, args) {
     game.playerStats.lifebar = "❤❤❤";
     game.playerStats.movementSpeed = 100;
     game.playerStats.jumpStrength = -200;
-    game.state.start("menu");
+    game.state.start("level0");
 }
