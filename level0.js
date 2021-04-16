@@ -1,4 +1,4 @@
-var levels = {};
+// var levels = {};
 var text;
 var arlo, enemy1, portal;
 var platformsRec, platformsSquare, stars, hearts;
@@ -50,15 +50,19 @@ function create() {
 
     game.playerStats.startingPosX = 32;
     game.playerStats.startingPosY = 15;
- 
+
     var background = game.add.image(0, 0, "forestBG");
     background.scale.setTo(0.2, 0.2);
-    
-    var style = {fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-    text = game.add.text(250, 155, "Use Arrow Keys to Move", style)
-    text = game.add.text(230, 190, "Press 'Z' to Shoot Enemies", style)
-    text = game.add.text(220, 225, "Capture Heart to Gain Health", style)
-    text = game.add.text(220, 260, "Capture Star to Move Faster", style)
+
+    var style = {
+        fill: "#fff",
+        boundsAlignH: "center",
+        boundsAlignV: "middle",
+    };
+    text = game.add.text(250, 155, "Use Arrow Keys to Move", style);
+    text = game.add.text(230, 190, "Press 'Z' to Shoot Enemies", style);
+    text = game.add.text(220, 225, "Capture Heart to Gain Health", style);
+    text = game.add.text(220, 260, "Capture Star to Move Faster", style);
 
     // Music and Sound
     game.input.touch.preventDefault = false;
@@ -103,8 +107,8 @@ function create() {
     createStar(360, 425);
 
     // mid box
-    createRecPlatforms(150,500, 1, 0.3);
-    createHeart(210,473);
+    createRecPlatforms(150, 500, 1, 0.3);
+    createHeart(210, 473);
 
     portal = game.add.sprite(730, 510, "portal");
     portal.scale.setTo(0.1, 0.1);
@@ -122,7 +126,6 @@ function create() {
     arlo.body.gravity.y = 300;
     arlo.body.collideWorldBounds = true;
 
-    
     arlo.animations.add("left", [5, 6, 7, 8, 9]);
     arlo.animations.add("right", [0, 1, 2, 3, 4]);
 
@@ -144,7 +147,7 @@ function update() {
     arlo.body.velocity.x = 0;
 
     if (cursors.left.isDown) {
-        arlo.scale.setTo(0.025, 0.025); 
+        arlo.scale.setTo(0.025, 0.025);
         arlo.body.velocity.x = -1 * game.playerStats.movementSpeed;
         facingRight = false;
         arlo.animations.play("left", 14, true);
@@ -155,12 +158,9 @@ function update() {
         arlo.animations.play("right", 14, true);
     } else {
         arlo.animations.stop();
-        if (facingRight == false)
-        {
+        if (facingRight == false) {
             arlo.frame = 5;
-        }
-        else
-        {
+        } else {
             arlo.frame = 0;
         }
     }
@@ -191,10 +191,8 @@ function update() {
     }
 
     game.physics.arcade.collide(arlo, enemy1, loseLife, null, this);
-    
 
     game.physics.arcade.overlap(bullets, enemy1, killEnemy, null, this);
-    
 
     game.physics.arcade.collide(
         bullets,
