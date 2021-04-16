@@ -64,7 +64,7 @@ function create() {
     text = game.add.text(510, 180, "Jump Higher", style);
 
     game.input.touch.preventDefault = false;
-    BGMusic = game.add.audio("music");
+    BGMusic = game.add.audio("music", {volume: 0.6});
     BGMusic.play();
 
     bulletSound = game.add.audio("bullet");
