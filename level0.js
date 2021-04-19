@@ -22,7 +22,7 @@ function preload() {
     game.load.image("arlo", "assets/sprites/arlo.png");
     game.load.spritesheet(
         "arloSheet",
-        "assets/sprites/arloSheet-2.png",
+        "assets/sprites/arloSheet-3.png",
         1000,
         1687
     );
@@ -51,7 +51,7 @@ function create() {
     game.playerStats.startingPosX = 32;
     game.playerStats.startingPosY = 15;
  
-    var background = game.add.image(0, 0, "forestBG");
+    var background = game.add.sprite(0, 0, "forestBG");
     background.scale.setTo(0.2, 0.2);
     
     var style = {fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
@@ -116,15 +116,16 @@ function create() {
         "arloSheet"
     );
     arlo.scale.setTo(0.025, 0.025);
+    //arlo.sprite.anchor.x
     game.physics.arcade.enable(arlo);
 
     arlo.body.bounce.y = 0.1;
     arlo.body.gravity.y = 300;
     arlo.body.collideWorldBounds = true;
 
-    
-    arlo.animations.add("left", [5, 6, 7, 8, 9]);
-    arlo.animations.add("right", [0, 1, 2, 3, 4]);
+    arlo.animations.add("right", [5, 6, 7, 8, 9]);
+    arlo.animations.add("left", [0, 1, 2, 3, 4]);
+
 
     enemy1 = game.add.sprite(430, 100, "enemy");
     enemy1.scale.setTo(0.12, 0.12);
@@ -157,11 +158,11 @@ function update() {
         arlo.animations.stop();
         if (facingRight == false)
         {
-            arlo.frame = 5;
+            arlo.frame = 0;
         }
         else
         {
-            arlo.frame = 0;
+            arlo.frame = 5;
         }
     }
 

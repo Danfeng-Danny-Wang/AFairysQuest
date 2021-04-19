@@ -1,4 +1,4 @@
-levels.menu = function () {};
+/* levels.menu = function () {};
 levels.menu.prototype = {
     preload: function () {},
     create: function () {
@@ -27,3 +27,4 @@ function fn1(i, args) {
     game.playerStats.jumpStrength = -200;
     game.state.start("level0");
 }
+*/
