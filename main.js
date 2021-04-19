@@ -1,5 +1,5 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO);
-game.state.add("menu", levels.menu);
+game.state.add("story", levels.story);
 game.state.add("level0", levels.level0);
 game.state.add("level1", levels.level1);
 game.state.add("level2", levels.level2);
@@ -16,4 +16,4 @@ game.playerStats = {
     startingPosY: 15,
 };
 
-game.state.start("menu");
+game.state.start("story");

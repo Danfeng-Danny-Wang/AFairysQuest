@@ -53,12 +53,16 @@ function create() {
  
     var background = game.add.sprite(0, 0, "forestBG");
     background.scale.setTo(0.2, 0.2);
-    
-    var style = {fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-    text = game.add.text(250, 155, "Use Arrow Keys to Move", style)
-    text = game.add.text(230, 190, "Press 'Z' to Shoot Enemies", style)
-    text = game.add.text(220, 225, "Capture Heart to Gain Health", style)
-    text = game.add.text(220, 260, "Capture Star to Move Faster", style)
+
+    var style = {
+        fill: "#fff",
+        boundsAlignH: "center",
+        boundsAlignV: "middle",
+    };
+    text = game.add.text(250, 155, "Use Arrow Keys to Move", style);
+    text = game.add.text(230, 190, "Press 'Z' to Shoot Enemies", style);
+    text = game.add.text(220, 225, "Capture Heart to Gain Health", style);
+    text = game.add.text(220, 260, "Capture Star to Move Faster", style);
 
     // Music and Sound
     game.input.touch.preventDefault = false;
@@ -103,8 +107,8 @@ function create() {
     createStar(360, 425);
 
     // mid box
-    createRecPlatforms(150,500, 1, 0.3);
-    createHeart(210,473);
+    createRecPlatforms(150, 500, 1, 0.3);
+    createHeart(210, 473);
 
     portal = game.add.sprite(730, 510, "portal");
     portal.scale.setTo(0.1, 0.1);
@@ -194,10 +198,8 @@ function update() {
     }
 
     game.physics.arcade.collide(arlo, enemy1, loseLife, null, this);
-    
 
     game.physics.arcade.overlap(bullets, enemy1, killEnemy, null, this);
-    
 
     game.physics.arcade.collide(
         bullets,

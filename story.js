@@ -1,16 +1,16 @@
 var levels = {};
-var cursors;
-var lifebar;
 
-levels.menu = function () {};
-levels.menu.prototype = {
+levels.story = function () {};
+levels.story.prototype = {
     preload: function () {},
     create: function () {
         game.stage.backgroundColor = "#5ac18e";
-        var startText = game.add.text(
+
+        var resultText = "A Fairy's Quest";
+        var result = game.add.text(
             300,
             230,
-            "Press Z to Start",
+            `${resultText}\nPress Z to start`,
             {
                 fontSize: "32px",
                 fill: "#dde587",
@@ -19,15 +19,11 @@ levels.menu.prototype = {
 
         game.input.keyboard
             .addKey(Phaser.Keyboard.Z)
-            .onDown.add(fn1, null, null, null);
+            .onDown.add(goToLevel0, null, null, null);
     },
     update: function () {},
 };
 
-function fn1(i, args) {
-    game.playerStats.life = 3;
-    game.playerStats.lifebar = "❤❤❤";
-    game.playerStats.movementSpeed = 100;
-    game.playerStats.jumpStrength = -200;
+function goToLevel0(i, args) {
     game.state.start("level0");
 }
