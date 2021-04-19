@@ -161,7 +161,7 @@ function update() {
     arlo.body.velocity.x = 0;
 
     if (cursors.left.isDown) {
-        arlo.scale.setTo(-0.025, 0.025);
+        arlo.scale.setTo(0.025, 0.025);
         arlo.body.setSize(495, 1687, 0, 0);
 
         arlo.body.velocity.x = -1 * game.playerStats.movementSpeed;
