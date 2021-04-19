@@ -15,6 +15,7 @@ levels.level0.prototype = {
     preload: preload,
     create: create,
     update: update,
+    //render: render,
 };
 
 function preload() {
@@ -116,7 +117,6 @@ function create() {
         "arloSheet"
     );
     arlo.scale.setTo(0.025, 0.025);
-    //arlo.sprite.anchor.x
     game.physics.arcade.enable(arlo);
 
     arlo.body.bounce.y = 0.1;
@@ -125,7 +125,6 @@ function create() {
 
     arlo.animations.add("right", [5, 6, 7, 8, 9]);
     arlo.animations.add("left", [0, 1, 2, 3, 4]);
-
 
     enemy1 = game.add.sprite(430, 100, "enemy");
     enemy1.scale.setTo(0.12, 0.12);
@@ -146,11 +145,15 @@ function update() {
 
     if (cursors.left.isDown) {
         arlo.scale.setTo(0.025, 0.025); 
+        arlo.body.setSize(495, 1687, 0, 0);
+
         arlo.body.velocity.x = -1 * game.playerStats.movementSpeed;
         facingRight = false;
         arlo.animations.play("left", 14, true);
     } else if (cursors.right.isDown) {
         arlo.scale.setTo(0.025, 0.025);
+        arlo.body.setSize(495, 1687, 10, 0);
+
         arlo.body.velocity.x = game.playerStats.movementSpeed;
         facingRight = true;
         arlo.animations.play("right", 14, true);
@@ -301,3 +304,9 @@ function killEnemy(bullet, enemy) {
 function bulletsHitWall(bullet, wall) {
     bullet.kill();
 }
+
+/* function render() {
+
+    game.debug.body(arlo);
+
+} */
