@@ -4,7 +4,7 @@ levels.story = function () {};
 levels.story.prototype = {
     preload: function () {},
     create: function () {
-        game.stage.backgroundColor = "#5ac18e";
+        game.stage.backgroundColor = "#3333FF";
 
         var resultText = "A Fairy's Quest";
         var result = game.add.text(
@@ -19,11 +19,11 @@ levels.story.prototype = {
 
         game.input.keyboard
             .addKey(Phaser.Keyboard.Z)
-            .onDown.add(goToLevel0, null, null, null);
+            .onDown.add(goToStory2, null, null, null);
     },
     update: function () {},
 };
 
-function goToLevel0(i, args) {
-    game.state.start("level0");
+function goToStory2(i, args) {
+    game.state.start("story2");
 }
