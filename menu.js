@@ -1,12 +1,16 @@
-/* levels.menu = function () {};
+var levels = {};
+var cursors;
+var lifebar;
+
+levels.menu = function () {};
 levels.menu.prototype = {
     preload: function () {},
     create: function () {
         game.stage.backgroundColor = "#5ac18e";
-        var menu = game.add.text(
+        var startText = game.add.text(
             300,
             230,
-            `\nPress Z to Start`,
+            "Press Z to Start",
             {
                 fontSize: "32px",
                 fill: "#dde587",
@@ -27,4 +31,3 @@ function fn1(i, args) {
     game.playerStats.jumpStrength = -200;
     game.state.start("level0");
 }
-*/
