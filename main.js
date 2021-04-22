@@ -7,6 +7,8 @@ game.state.add("level2", levels.level2);
 game.state.add("level3", levels.level3);
 game.state.add("level4", levels.level4);
 game.state.add("result", levels.result);
+game.state.add("bosslevel", levels.bosslevel);
+
 
 game.playerStats = {
     movementSpeed: 100,
@@ -17,4 +19,4 @@ game.playerStats = {
     startingPosY: 15,
 };
 
-game.state.start("story");
+game.state.start("bosslevel");

@@ -1,3 +1,4 @@
+var levels = {};
 var BGMusic, bulletSound, hitSound;
 var platformsRec, platformsSquare, stars, hearts;
 var arlo, portal;
@@ -53,17 +54,14 @@ function create() {
     game.playerStats.startingPosY = 15;
  
     var background = game.add.sprite(0, 0, "forestBG");
-    background.scale.setTo(0.2, 0.2);
+    background.scale.setTo(0.6, 0.6);
 
     var style = {
         fill: "#fff",
         boundsAlignH: "center",
         boundsAlignV: "middle",
     };
-    text = game.add.text(250, 155, "Use Arrow Keys to Move", style);
-    text = game.add.text(230, 190, "Press 'Z' to Shoot Enemies", style);
-    text = game.add.text(220, 225, "Capture Heart to Gain Health", style);
-    text = game.add.text(220, 260, "Capture Star to Move Faster", style);
+   
 
     // Music and Sound
     game.input.touch.preventDefault = false;
@@ -108,13 +106,14 @@ function create() {
     createStar(360, 425);
 
     // mid box
-    createRecPlatforms(150, 500, 1, 0.3);
+    /* createRecPlatforms(150, 500, 1, 0.3);
     createHeart(210, 473);
 
     portal = game.add.sprite(730, 510, "portal");
     portal.scale.setTo(0.1, 0.1);
-    game.physics.arcade.enable(portal);
+    game.physics.arcade.enable(portal); */
 
+    // arlo
     arlo = game.add.sprite(
         game.playerStats.startingPosX,
         game.playerStats.startingPosY,
@@ -130,13 +129,20 @@ function create() {
     arlo.animations.add("right", [5, 6, 7, 8, 9]);
     arlo.animations.add("left", [0, 1, 2, 3, 4]);
 
-    /*enemy1 = game.add.sprite(430, 100, "enemy");
-    enemy1.scale.setTo(0.12, 0.12);
-    game.physics.arcade.enable(enemy1);
-    enemy1.body.bounce.y = 0.2;
-    enemy1.body.gravity.y = 300;
-    enemy1.body.collideWorldBounds = true;*/
+    // boss
+    boss = game.add.sprite(430, 0, "boss");
+    boss.scale.setTo(0.8, 0.8);
 
+    game.physics.arcade.enable(boss);
+    boss.body.bounce.y = 0.2;
+    boss.body.gravity.y = 300;
+    boss.body.collideWorldBounds = true;
+
+    boss.animations.add("fuming", [0, 1, 2, 3, 4, 5]);
+    boss.animations.play("fuming", 14, true);
+
+
+    // cursors 
     cursors = game.input.keyboard.createCursorKeys();
     fireButton = game.input.keyboard.addKey(Phaser.Keyboard.Z);
 }
@@ -185,12 +191,14 @@ function update() {
     game.physics.arcade.overlap(arlo, hearts, collectHeart, null, this);
     game.physics.arcade.overlap(arlo, portal, goTolevel1, null, this);
 
-    game.physics.arcade.collide(enemy1, platformsRec);
+    game.physics.arcade.collide(boss, platformsRec);
+    game.physics.arcade.collide(boss, platformsSquare);
 
-    /*if (enemy1.x <= 430 && enemy1.body.touching.down) {
-        enemy1.body.velocity.x = 150;
-    } else if (enemy1.x >= 685) {
-        enemy1.body.velocity.x = -150;
+
+    /*if (boss.x <= 430 && boss.body.touching.down) {
+        boss.body.velocity.x = 150;
+    } else if (boss.x >= 685) {
+        boss.body.velocity.x = -150;
     }*/
 
     // Firing?
@@ -198,9 +206,9 @@ function update() {
         fireBullet();
     }
 
-    game.physics.arcade.collide(arlo, enemy1, loseLife, null, this);
+    game.physics.arcade.collide(arlo, boss, loseLife, null, this);
 
-    game.physics.arcade.overlap(bullets, enemy1, killEnemy, null, this);
+    game.physics.arcade.overlap(bullets, boss, killEnemy, null, this);
 
     game.physics.arcade.collide(
         bullets,
