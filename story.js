@@ -1,4 +1,4 @@
-//var levels = {};
+var levels = {};
 
 levels.story = function () {};
 levels.story.prototype = {

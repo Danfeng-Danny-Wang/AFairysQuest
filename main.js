@@ -19,4 +19,4 @@ game.playerStats = {
     startingPosY: 15,
 };
 
-game.state.start("bosslevel");
+game.state.start("story");

@@ -283,9 +283,9 @@ function update() {
         this
     );
 
-    game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
+    game.physics.arcade.overlap(arlo, portal, goToBoss, null, this);
 }
 
-function goToResult() {
-    game.state.start("result");
+function goToBoss() {
+    game.state.start("bosslevel");
 }

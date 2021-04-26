@@ -1,4 +1,4 @@
-var levels = {};
+//var levels = {};
 var BGMusic, bulletSound, hitSound;
 var platformsRec, platformsSquare, stars, hearts;
 var arlo, portal;
@@ -107,11 +107,11 @@ function create() {
 
     // mid box
     /* createRecPlatforms(150, 500, 1, 0.3);
-    createHeart(210, 473);
+    createHeart(210, 473); */
 
     portal = game.add.sprite(730, 510, "portal");
     portal.scale.setTo(0.1, 0.1);
-    game.physics.arcade.enable(portal); */
+    game.physics.arcade.enable(portal); 
 
     // arlo
     arlo = game.add.sprite(
@@ -189,7 +189,6 @@ function update() {
 
     game.physics.arcade.overlap(arlo, stars, collectStar, null, this);
     game.physics.arcade.overlap(arlo, hearts, collectHeart, null, this);
-    game.physics.arcade.overlap(arlo, portal, goTolevel1, null, this);
 
     game.physics.arcade.collide(boss, platformsRec);
     game.physics.arcade.collide(boss, platformsSquare);
@@ -224,4 +223,10 @@ function update() {
         null,
         this
     );
+
+    game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
+}
+
+function goToResult() {
+    game.state.start("result");
 }
