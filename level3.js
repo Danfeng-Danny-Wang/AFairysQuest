@@ -46,7 +46,7 @@ function preload() {
         "assets/sounds/bulletSound.mp3",
         "assets/sounds/bulletSound.ogg",
     ]);
-    game.load.audio("hit", ["assets/sounds/hit.mp3", "assets/sounds/hit.ogg"]);
+    game.load.audio("hit", ["assets/sounds/whoosh.mp3", "assets/sounds/hit.ogg"]);
 }
 
 function create() {

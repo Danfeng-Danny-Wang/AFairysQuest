@@ -2,7 +2,7 @@
 var BGMusic, bulletSound, hitSound;
 var platformsRec, platformsSquare, stars, hearts;
 var arlo, portal;
-var boss;
+var boss, bosstongue, enemy1;
 var bullets;
 var bulletTime = 0;
 var fireButton;
@@ -18,7 +18,7 @@ levels.bosslevel.prototype = {
 };
 
 function preload() {
-    game.load.image("forestBG", "assets/sprites/forestBG.png");
+    game.load.image("forestBG", "assets/sprites/Background.png", 2000, 600);
     game.load.image("arlo", "assets/sprites/arlo.png");
     game.load.spritesheet(
         "arloSheet",
@@ -27,6 +27,7 @@ function preload() {
         1687
     );
     game.load.spritesheet("boss", "assets/sprites/frog.png", 270, 186);
+    game.load.spritesheet("tongue", "assets/sprites/frogtongue.png", 588, 186);
     game.load.image("platformRec", "assets/sprites/rect-platf.png");
     game.load.image("platformSquare", "assets/sprites/square-platf.png");
     game.load.image("star", "assets/sprites/star.png");
@@ -44,7 +45,7 @@ function preload() {
         "assets/sounds/bulletSound.mp3",
         "assets/sounds/bulletSound.ogg",
     ]);
-    game.load.audio("hit", ["assets/sounds/hit.mp3", "assets/sounds/hit.ogg"]);
+    game.load.audio("hit", ["assets/sounds/whoosh.mp3", "assets/sounds/hit.ogg"]);
 }
 
 function create() {
@@ -102,8 +103,8 @@ function create() {
     // ground
     createRecPlatforms(0, game.world.height - 33, 6, 0.5);
 
-    createSquarePlatforms(355, 450);
-    createStar(360, 425);
+    createSquarePlatforms(200, 500);
+    createStar(205, 475);
 
     // mid box
     /* createRecPlatforms(150, 500, 1, 0.3);
@@ -129,17 +130,38 @@ function create() {
     arlo.animations.add("right", [5, 6, 7, 8, 9]);
     arlo.animations.add("left", [0, 1, 2, 3, 4]);
 
+    enemy1 = game.add.sprite(70, 100, "enemy");
+    enemy1.scale.setTo(0.12, 0.12);
+    game.physics.arcade.enable(enemy1);
+    enemy1.body.bounce.y = 0.2;
+    enemy1.body.gravity.y = 300;
+    enemy1.body.collideWorldBounds = true;
+
     // boss
-    boss = game.add.sprite(430, 0, "boss");
+    /*boss = game.add.sprite(430, 0, "boss");
     boss.scale.setTo(0.8, 0.8);
+
 
     game.physics.arcade.enable(boss);
     boss.body.bounce.y = 0.2;
     boss.body.gravity.y = 300;
-    boss.body.collideWorldBounds = true;
+    boss.body.collideWorldBounds = true;*/ 
 
-    boss.animations.add("fuming", [0, 1, 2, 3, 4, 5]);
-    boss.animations.play("fuming", 14, true);
+    //boss.animations.add("fuming", [0, 1, 2, 3, 4, 5]);
+    //boss.animations.play("fuming", 14, true);
+
+    bosstongue = game.add.sprite(250, 0, "tongue");
+    bosstongue.scale.setTo(0.8, 0.8);
+
+
+    game.physics.arcade.enable(bosstongue);
+    bosstongue.body.bounce.y = 0.2;
+    bosstongue.body.gravity.y = 300;
+    bosstongue.body.collideWorldBounds = true;
+
+
+    bosstongue.animations.add("attack", [0, 1, 2, 3, 4, 5, 6]);
+    bosstongue.animations.play("attack", 14, true);
 
 
     // cursors 
@@ -185,13 +207,25 @@ function update() {
         (hitPlatformsRec || hitPlatformsSquare)
     ) {
         arlo.body.velocity.y = game.playerStats.jumpStrength;
+        //boss.animations.stop();
+        //boss.animations.play("tongue", 14, true);
     }
 
+    
     game.physics.arcade.overlap(arlo, stars, collectStar, null, this);
     game.physics.arcade.overlap(arlo, hearts, collectHeart, null, this);
 
-    game.physics.arcade.collide(boss, platformsRec);
-    game.physics.arcade.collide(boss, platformsSquare);
+    game.physics.arcade.collide(bosstongue, platformsRec);
+    game.physics.arcade.collide(bosstongue, platformsSquare);
+
+    game.physics.arcade.collide(enemy1, platformsRec);
+
+
+    if (enemy1.x <= 80 && enemy1.body.touching.down) {
+        enemy1.body.velocity.x = 150;
+    } else if (enemy1.x >= 450) {
+        enemy1.body.velocity.x = -150;
+    }
 
 
     /*if (boss.x <= 430 && boss.body.touching.down) {
@@ -205,9 +239,9 @@ function update() {
         fireBullet();
     }
 
-    game.physics.arcade.collide(arlo, boss, loseLife, null, this);
+    game.physics.arcade.collide(arlo, bosstongue, loseLife, null, this);
 
-    game.physics.arcade.overlap(bullets, boss, killEnemy, null, this);
+    game.physics.arcade.overlap(bullets, bosstongue, killEnemy, null, this);
 
     game.physics.arcade.collide(
         bullets,
@@ -225,6 +259,61 @@ function update() {
     );
 
     game.physics.arcade.overlap(arlo, portal, goToResult, null, this);
+    game.physics.arcade.collide(arlo, enemy1, loseLife, null, this);
+    game.physics.arcade.overlap(bullets, enemy1, killEnemy, null, this);
+
+
+}
+
+function changeLifebar(add = true) {
+    if (add) {
+        game.playerStats.life++;
+        generateLifebar();
+        lifebar.text = game.playerStats.lifebar;
+    } else {
+        game.playerStats.life--;
+
+        if (game.playerStats.life === 0) {
+            game.state.start("result");
+        }
+
+        generateLifebar();
+        lifebar.text = game.playerStats.lifebar;
+    }
+}
+
+function loseLife() {
+    arlo.x = game.playerStats.startingPosX;
+    arlo.y = game.playerStats.startingPosY;
+    changeLifebar(false);
+}
+
+function generateLifebar() {
+    game.playerStats.lifebar = "";
+    for (var i = 0; i < game.playerStats.life; i++) {
+        game.playerStats.lifebar += "❤";
+    }
+}function fireBullet() {
+    if (game.time.now > bulletTime) {
+        bullet = bullets.getFirstExists(false);
+
+        if (bullet) {
+            bullet.reset(arlo.x, arlo.y + 25);
+            bullet.body.velocity.x = facingRight ? 400 : -400;
+            bulletTime = game.time.now + 200;
+            bulletSound.play();
+        }
+    }
+}
+
+function killEnemy(bullet, enemy) {
+    bullet.kill();
+    enemy.kill();
+    hitSound.play();
+}
+
+function bulletsHitWall(bullet, wall) {
+    bullet.kill();
 }
 
 function goToResult() {
